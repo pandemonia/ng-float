@@ -69,6 +69,13 @@ module.exports = function makeWebpackConfig () {
     config.devtool = 'eval-source-map';
   }
 
+  config.resolve = {
+    alias: {
+      'jquery-ui': 'jquery-ui/ui/widgets',
+      'jquery-ui-css': 'jquery-ui/../../themes/base'
+    }
+  };
+
   /**
    * Loaders
    * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
@@ -160,6 +167,10 @@ module.exports = function makeWebpackConfig () {
       new HtmlWebpackPlugin({
         template: './src/public/index.html',
         inject: 'body'
+      }),
+
+      new webpack.ProvidePlugin({
+        'window.jQuery': 'jquery'
       }),
 
       // Reference: https://github.com/webpack/extract-text-webpack-plugin

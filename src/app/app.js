@@ -1,25 +1,15 @@
+import 'jquery-ui-css/core.css';
+import 'jquery-ui-css/menu.css';
+import 'jquery-ui-css/draggable.css';
+import 'jquery-ui-css/theme.css';
+
 import angular from 'angular';
+
+import flContainer from './components/fl-container'
+import flItem from './components/fl-item'
 
 import '../style/app.css';
 
-let app = () => {
-  return {
-    template: require('./app.html'),
-    controller: 'AppCtrl',
-    controllerAs: 'app'
-  }
-};
-
-class AppCtrl {
-  constructor() {
-    this.url = 'https://github.com/preboot/angular-webpack';
-  }
-}
-
-const MODULE_NAME = 'app';
-
-angular.module(MODULE_NAME, [])
-  .directive('app', app)
-  .controller('AppCtrl', AppCtrl);
-
-export default MODULE_NAME;
+export default angular.module('float', [])
+  .component('flContainer', flContainer)
+  .component('flItem', flItem);
