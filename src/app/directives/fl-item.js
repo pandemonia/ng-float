@@ -19,19 +19,24 @@ export default function () {
       this.$postLink = () => {
         $element.draggable({
           containment: 'parent',
-          stop: this.onStop
+          stop: this.onStop,
+          opacity: 0.7,
+          helper: 'clone'
         });
-        $element.css('top', this.layout.top)
-                .css('left', this.layout.left)
-                .css('width', this.layout.width)
-                .css('height', this.layout.height);
+        this.setPosition();
       };
 
-      this.onStop = () => {
-        console.debug(this.layout.top, this.layout.left);
-        this.layout.top = $element.position().top;
-        this.layout.left = $element.position().left;
-        console.debug(this.layout.top, this.layout.left);
+      this.setPosition = () => {
+        $element.css('top', this.layout.top)
+          .css('left', this.layout.left)
+          .css('width', this.layout.width)
+          .css('height', this.layout.height);
+      };
+
+      this.onStop = (event, ui) => {
+        this.layout.top = ui.position.top;
+        this.layout.left = ui.position.left;
+        this.setPosition();
         this.container.onItemMove();
       };
     },
