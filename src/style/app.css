@@ -11,28 +11,24 @@ footer {
   text-align: center;
 }
 
-fl-container, fl-item {
-  display: block;
-}
-
-fl-container {
+[fl-container] {
   position: relative;
-  height: 1000px;
 }
 
-fl-item {
-  position: fixed;
+[fl-item] {
+  position: absolute;
 }
 
-/* App specific styles */
-fl-item {
+/* App specific styles, which should be removed later */
+[fl-item] {
   padding: 15px;
 }
 
-fl-container {
+[fl-container] {
   border: 1px solid #dddddd;
+  height: 1000px;
 }
 
-fl-container fl-item {
+[fl-container], [fl-item] {
   border: 1px dashed #cccccc;
 }

@@ -8,21 +8,14 @@
 
   <base href="/">
 </head>
-<body>
-  <fl-container items="[{
-    left: 100,
-    top: 0,
-    width: 100,
-    height: 100,
-    title: 'hello'
-  }, {
-    left: 100,
-    top: 250,
-    width: 100,
-    height: 80,
-    title: 'world'
-  }]">  
-    <strong ng-bind="item.title"></strong>
-  </fl-container>
+<body ng-cloak>
+  <div fl-container>  
+    <div fl-item="{left: 100, top: 100, height: 100, width: 100}">
+      Hello!
+    </div>
+    <div fl-item="{left: 100, top: 300, height: 100, width: 200}">
+      World!
+    </div>
+  </div>
 </body>
 </html>

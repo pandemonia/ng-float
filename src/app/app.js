@@ -5,11 +5,11 @@ import 'jquery-ui-css/theme.css';
 
 import angular from 'angular';
 
-import flContainer from './components/fl-container'
-import flItem from './components/fl-item'
+import flContainer from './directives/fl-container'
+import flItem from './directives/fl-item'
 
 import '../style/app.css';
 
 export default angular.module('float', [])
-  .component('flContainer', flContainer)
-  .component('flItem', flItem);
+  .directive('flContainer', flContainer)
+  .directive('flItem', flItem);
