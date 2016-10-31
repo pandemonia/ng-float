@@ -4,10 +4,19 @@ export default function () {
     controller: function () {
       this.items = [];
       this.addItem = item => {
-        console.debug('addItem', item, performance.now());
+        console.debug(item);
+        item.id = this.items.length;
+        this.items.push(item);
+        item.position();
       };
+
       this.onItemMove = () => {
-        console.debug('onItemMove');
+
+        //order by top position
+        this.items.forEach(item => {
+
+        });
+        this.items.forEach(item => item.position());
       };
     }
   };
