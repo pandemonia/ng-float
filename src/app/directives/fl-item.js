@@ -31,6 +31,17 @@ export default function () {
         this.layout.left = ui.position.left;
         this.container.onItemMove();
       };
+
+      /**
+       * If one or more expressions in the parentheses are true, there's 
+       * no overlapping. If all are false, there must be an overlapping.
+       */
+      this.doesOverlap = item => {
+        return !(this.layout.left + this.layout.width < item.layout.left || 
+                 item.layout.left + item.layout.width < this.layout.left || 
+                 this.layout.top + this.layout.height < item.layout.top || 
+                 item.layout.top + item.layout.height < this.layout.top)
+      };
     },
     link: (scope, element, attrs, {container, item}) => {
       element.draggable({
