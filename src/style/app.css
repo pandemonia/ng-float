@@ -27,6 +27,20 @@ footer {
   padding: 15px;
 }
 
+[fl-item] {
+  transition: all 0.35s linear;
+}
+
+[fl-item].ui-draggable-dragging {
+  transition: none;
+  background-color: pink;
+  opacity: 0.5;
+}
+
+[fl-item].fl-item-drag-active {
+  transition: none;
+}
+
 [fl-container] {
   border: 1px solid #dddddd;
   height: 1000px;

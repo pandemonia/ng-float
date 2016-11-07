@@ -29,6 +29,7 @@ export default function () {
       this.onStop = (event, ui) => {
         this.layout.top = ui.position.top;
         this.layout.left = ui.position.left;
+        this.position();
         this.container.onItemMove();
       };
 
@@ -37,9 +38,9 @@ export default function () {
        * no overlapping. If all are false, there must be an overlapping.
        */
       this.doesOverlap = item => {
-        return !(this.layout.left + this.layout.width < item.layout.left || 
-                 item.layout.left + item.layout.width < this.layout.left || 
-                 this.layout.top + this.layout.height < item.layout.top || 
+        return !(this.layout.left + this.layout.width < item.layout.left ||
+                 item.layout.left + item.layout.width < this.layout.left ||
+                 this.layout.top + this.layout.height < item.layout.top ||
                  item.layout.top + item.layout.height < this.layout.top)
       };
     },

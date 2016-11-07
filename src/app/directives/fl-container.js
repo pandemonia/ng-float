@@ -1,20 +1,18 @@
 export default function () {
   return {
     restrict: 'A',
-    controller: function () {
-      let items = [];
+    controller: function ($element) {
+      let items = {};
 
       this.addItem = item => {
-        item.id = items.length;
-        items.push(item);
-
-        item.position();
+        items[Object.keys(items).length] = item;
+        position();
+        Object.values(items).forEach(item => item.position());
       };
 
       this.onItemMove = () => {
-        orderItemsByTopPosition();
-
-        items.forEach(item => item.position());
+        position();
+        Object.values(items).forEach(item => item.position());
       };
 
       /**
@@ -23,22 +21,45 @@ export default function () {
        * of them then set its top offset to be equal to the first item's bottom
        * offset
        */
-      function orderItemsByTopPosition() {
-        const topPositions = items.slice()
-          .sort((a, b) => a.layout.top - b.layout.top)
-          .map(item => item.id);
+      function position() {
+        const start = performance.now();
 
-        for (let i = 1; i < topPositions.length; i++) {
-          let adj = items[topPositions[i]]; // The item being adjusted
-
-          for (let j = 0; j < i; j++) {
-            let ref = items[topPositions[j]]; // The item being compared to
-
-            if (adj.doesOverlap(ref)) {
-              adj.layout.top = ref.layout.top + ref.layout.height;
-            }
+        // Hash map of items by their top positions
+        const topHashMap = {};
+        Object.keys(items).forEach(id => {
+          const item = items[id];
+          if (!(item.layout.top in topHashMap)) {
+            topHashMap[item.layout.top] = [];
           }
-        }
+          topHashMap[item.layout.top].push(id);
+        });
+
+        // Convert this to an sorted array of objects, each with top and height
+        const rows = Object.keys(topHashMap).map(Number).sort().map(key => ({
+          top: key,
+          items: topHashMap[key],
+          height: topHashMap[key].map(id => items[id].layout.height).reduce((a, b) => Math.max(a, b))
+        }));
+
+        // Eliminate any space between the rows
+        for (let i = 0; i < rows.length; i++) {
+          const row = rows[i];
+          if (i === 0) {
+            row.top = 0;
+          } else {
+            row.top = rows[i - 1].top + rows[i - 1].height;
+          }
+          row.items.forEach(id => {
+           items[id].layout.top = row.top;
+          });
+
+          if (i === rows.length - 1) {
+            $element.css('min-height', (row.top + row.height) + 'px');
+          }
+        };
+
+
+        console.debug('flContainer.position', performance.now() - start);
       }
     }
   };
