@@ -1,18 +1,23 @@
 export default function () {
   return {
     restrict: 'A',
-    controller: function ($element) {
+    controller: function ($element, $timeout) {
+      function _clone(object) {
+        return JSON.parse(JSON.stringify(object));
+      }
       let items = {};
 
       this.addItem = item => {
         items[Object.keys(items).length] = item;
-        position();
-        Object.values(items).forEach(item => item.position());
+      };
+
+      // After all the items are added position them
+      this.$postLink = function () {
+        $timeout(position, 0, false);
       };
 
       this.onItemMove = () => {
         position();
-        Object.values(items).forEach(item => item.position());
       };
 
       /**
@@ -33,13 +38,15 @@ export default function () {
           }
           topHashMap[item.layout.top].push(id);
         });
+        console.debug(_clone(topHashMap));
 
         // Convert this to an sorted array of objects, each with top and height
-        const rows = Object.keys(topHashMap).map(Number).sort().map(key => ({
+        const rows = Object.keys(topHashMap).map(Number).sort((a, b) => a - b).map(key => ({
           top: key,
           items: topHashMap[key],
           height: topHashMap[key].map(id => items[id].layout.height).reduce((a, b) => Math.max(a, b))
         }));
+        console.debug(_clone(rows));
 
         // Eliminate any space between the rows
         for (let i = 0; i < rows.length; i++) {
@@ -58,6 +65,8 @@ export default function () {
           }
         };
 
+        // Position all the items
+        Object.values(items).forEach(item => item.position());
 
         console.debug('flContainer.position', performance.now() - start);
       }

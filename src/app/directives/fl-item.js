@@ -29,7 +29,6 @@ export default function () {
       this.onStop = (event, ui) => {
         this.layout.top = ui.position.top;
         this.layout.left = ui.position.left;
-        this.position();
         this.container.onItemMove();
       };
 
@@ -48,7 +47,6 @@ export default function () {
       element.draggable({
         containment: 'parent',
         stop: item.onStop,
-        opacity: 0.7,
         helper: 'clone'
       });
 
