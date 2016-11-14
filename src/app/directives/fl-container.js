@@ -1,14 +1,17 @@
-export default function () {
+/**
+ * TODO:
+ * Row wise collision detection and sorting
+ * Snap to grid - row wise
+ */
+export default function (positionService) {
   return {
     restrict: 'A',
     controller: function ($element, $timeout) {
-      function _clone(object) {
-        return JSON.parse(JSON.stringify(object));
-      }
-      let items = {};
+      // Items are just a collection. Order has no significance here
+      let items = [];
 
       this.addItem = item => {
-        items[Object.keys(items).length] = item;
+        items.push(item);
       };
 
       // After all the items are added position them
@@ -27,26 +30,46 @@ export default function () {
        * offset
        */
       function position() {
-        const start = performance.now();
+        return positionService.position(items);
 
-        // Hash map of items by their top positions
-        const topHashMap = {};
-        Object.keys(items).forEach(id => {
-          const item = items[id];
-          if (!(item.layout.top in topHashMap)) {
-            topHashMap[item.layout.top] = [];
-          }
-          topHashMap[item.layout.top].push(id);
-        });
-        console.debug(_clone(topHashMap));
 
         // Convert this to an sorted array of objects, each with top and height
-        const rows = Object.keys(topHashMap).map(Number).sort((a, b) => a - b).map(key => ({
-          top: key,
-          items: topHashMap[key],
-          height: topHashMap[key].map(id => items[id].layout.height).reduce((a, b) => Math.max(a, b))
-        }));
         console.debug(_clone(rows));
+
+        for (let i = 0; i < rows.length; i++) {
+          const row = rows[i];
+          console.debug(row);
+          row.items.sort((a, b) => a.layout.left - b.layout.left);
+
+          const overflow = [];
+          for (let j = 1; j < row.items.length;) {
+            const cur = row.items[j], prev = row.items[j - 1];
+            console.debug(cur, prev);
+            if (cur.left < prev.left + prev.width) { // If overlap
+              if (prev.left + prev.width + cur.width > container.width()) {
+                overflow.push(row.items.splice(j, 0)[0]);
+              } else {
+                cur.left = prev.left + prev.width;
+                j++;
+              }
+            }
+          }
+
+          if (overflow.length > 0) {
+            rows.push({
+              top: row.top + row.items.reduce((a, b) => Math.max(a.layout.height, b.layout.height)),
+              items: overflow
+            });
+          }
+        }
+
+        // Set height for each row
+        rows.forEach(row => {
+          row.height = row.items.map(item => item.layout.height).reduce((a, b) => Math.max(a, b));
+        });
+
+        // Sort by top position
+        rows.sort((a, b) => a.top - b.top);
 
         // Eliminate any space between the rows
         for (let i = 0; i < rows.length; i++) {
@@ -68,8 +91,8 @@ export default function () {
         // Position all the items
         Object.values(items).forEach(item => item.position());
 
-        console.debug('flContainer.position', performance.now() - start);
       }
+
     }
   };
 };
