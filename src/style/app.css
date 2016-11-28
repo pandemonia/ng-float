@@ -18,13 +18,27 @@ footer {
 }
 
 [fl-item] {
+  cursor: move;
   position: absolute;
 }
 
-/* App specific styles, which should be removed later */
-[fl-item] {
+[fl-item] > * {
+  cursor: initial;
+  height: 100%;
+  width: 100%;
+}
+
+/* App specific styles, which should be moved out later */
+* {
   box-sizing: border-box;
-  padding: 15px;
+}
+
+[fl-item] {
+  padding: 5px; /* Padding determines how much wiggle room is present for the drag */
+}
+
+[fl-item]:hover {
+  border: 1px solid blue;
 }
 
 [fl-item] {
@@ -39,6 +53,10 @@ footer {
 
 [fl-item].fl-item-drag-active {
   transition: none;
+}
+
+[fl-item] > * {
+  padding: 5px;
 }
 
 [fl-container] {

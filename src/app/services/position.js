@@ -12,18 +12,20 @@ export default function () {
 
     const rows = makeRows(items);
     console.debug(rows);
-    return;
 
-    for (let i = 0; i < rows.length; i++) {
-      const overflow = checkItemCollisions(rows[i]);
+    // for (let i = 0; i < rows.length; i++) {
+    //   const overflow = checkItemCollisions(rows[i]);
 
-      if (overflow.length > 0) {
-        rows.splice(i, 0, [makeRow(overflow, rows[i].top)]);
-        i--;
-      }
-    }
+    //   if (overflow.length > 0) {
+    //     rows.splice(i, 0, [makeRow(overflow, rows[i].top)]);
+    //     i--;
+    //   }
+    // }
 
     console.debug('service.position', performance.now() - start);
+
+    // Return the array of items ordered by row and column
+    return rows.reduce((arr, row) => arr.concat(row.items), []);
   }
 
   /**
@@ -41,7 +43,6 @@ export default function () {
 
       topHashMap[item.layout.top].push(item);
     });
-
 
     return Object.keys(topHashMap).map(top => makeRow(topHashMap[top], top));
   }

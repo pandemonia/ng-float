@@ -30,8 +30,12 @@ export default function (positionService) {
        * offset
        */
       function position() {
-        return positionService.position(items);
+        items = positionService.position(items);
 
+        // Position all the items
+        items.forEach((item, index) => item.position(index + 1));
+
+        return;
 
         // Convert this to an sorted array of objects, each with top and height
         console.debug(_clone(rows));
@@ -87,9 +91,6 @@ export default function (positionService) {
             $element.css('min-height', (row.top + row.height) + 'px');
           }
         };
-
-        // Position all the items
-        Object.values(items).forEach(item => item.position());
 
       }
 

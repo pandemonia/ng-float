@@ -16,11 +16,13 @@ export default function () {
       /**
        * Move this item to the position specifiied in it's layout
        */
-      this.position = () => {
+      this.position = (index) => {
         $element.css('top', this.layout.top)
           .css('left', this.layout.left)
           .css('width', this.layout.width)
           .css('height', this.layout.height);
+
+        $element.attr('tabindex', index);
       };
 
       /**
@@ -45,11 +47,18 @@ export default function () {
     },
     link: (scope, element, attrs, {container, item}) => {
       element.draggable({
+        cursor: 'move',
+        cancel: '[fl-item] > *',
         containment: 'parent',
         stop: item.onStop,
         helper: 'clone'
       });
 
+      element.on('click', function () {
+        this.focus();
+      });
+
+      console.debug(element);
       container.addItem(item);
     }
   };
