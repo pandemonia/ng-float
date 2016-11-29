@@ -65,5 +65,5 @@ footer {
 }
 
 [fl-container], [fl-item] {
-  border: 1px dashed #cccccc;
+  border: 1px solid #cccccc;
 }
