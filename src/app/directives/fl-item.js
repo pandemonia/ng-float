@@ -1,65 +1,37 @@
-import $ from 'jquery';
+// import $ from 'jquery';
 import 'jquery-ui/draggable';
+import Item from '../classes/Item'
 
-export default function () {
+export default function ($parse) {
   return {
     restrict: 'A',
     require: {
-      container: '^flContainer',
-      item: 'flItem' //This creates a self reference, not sure if it is an issue
+      flContainer: '^'
     },
-    bindToController: {
-      layout: '=flItem'
-    },
-    controllerAs: '$ctrl',
-    controller: function ($element) {
-      /**
-       * Move this item to the position specifiied in it's layout
-       */
-      this.position = (index) => {
-        $element.css('top', this.layout.top)
-          .css('left', this.layout.left)
-          .css('width', this.layout.width)
-          .css('height', this.layout.height);
-
-        $element.attr('tabindex', index);
-      };
-
-      /**
-       * Callback after this item has stopped moving.
-       */
-      this.onStop = (event, ui) => {
-        this.layout.top = ui.position.top;
-        this.layout.left = ui.position.left;
-        this.container.onItemMove();
-      };
-
-      /**
-       * If one or more expressions in the parentheses are true, there's 
-       * no overlapping. If all are false, there must be an overlapping.
-       */
-      this.doesOverlap = item => {
-        return !(this.layout.left + this.layout.width < item.layout.left ||
-                 item.layout.left + item.layout.width < this.layout.left ||
-                 this.layout.top + this.layout.height < item.layout.top ||
-                 item.layout.top + item.layout.height < this.layout.top)
-      };
-    },
-    link: (scope, element, attrs, {container, item}) => {
+    link: (scope, element, attrs, {flContainer}) => {
+      const layout = $parse(attrs.flItem)(scope);
+      const item = new Item(layout.left, layout.top, layout.width, layout.height);
       element.draggable({
         cursor: 'move',
         cancel: '[fl-item] > *',
         containment: 'parent',
-        stop: item.onStop,
+        stop: (event, ui) => {
+          console.debug(event, ui);
+          // render();
+        },
         helper: 'clone'
       });
 
-      element.on('click', function () {
-        this.focus();
-      });
+      function render() {
+        element.css('top', layout.top * 20);
+        element.css('left', layout.left * 20);
+        element.css('width', layout.width * 20);
+        element.css('height', layout.height * 20);
+      }
 
-      console.debug(element);
-      container.addItem(item);
+      flContainer.addItem(item);
+
+      render();
     }
   };
-};
+}
