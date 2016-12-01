@@ -8,7 +8,7 @@ export default class Row {
 
   addItem(item) {
     this.items.push(item);
-    // this.items.sort((a, b) => a.left - b.left);
+    item.row = this;
   }
 
   setTop(top) {

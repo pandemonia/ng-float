@@ -12,18 +12,29 @@ export default function () {
       options: '=',
       isEditable: '='
     },
+    require: ['flContainer'],
+    controllerAs: 'flContainer',
     controller: function () {
-      let container = new Container([]);
+      this.flItems = [];
+      this.container = new Container([]);
 
-      this.addItem = item => {
-        container.addItem(item);
-      };
+      this.initItem = flItem => {
+        this.container.addItem(flItem.item);
+        this.flItems.push(flItem);
+      }
 
-      // After all the items are added position them
-      this.$postLink = function () {
-        console.debug(container);
-      };
+      this.render = () => {
+        this.flItems.forEach(flItem => flItem.render());
+      }
+
+      this.moveItem = (flItem, ui) => {
+        console.debug(flItem, ui);
+        this.render();
+      }
     },
-    controllerAs: '$ctrl'
-  };
+    link: function (scope, element, attrs, [flContainer]) {
+      console.debug(flContainer.container);
+      flContainer.render();
+    }
+  }
 }

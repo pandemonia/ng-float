@@ -2,36 +2,36 @@
 import 'jquery-ui/draggable';
 import Item from '../classes/Item'
 
-export default function ($parse) {
+export default function () {
   return {
     restrict: 'A',
-    require: {
-      flContainer: '^'
+    require: ['^flContainer', 'flItem'], //This creates a self reference, not sure if it is an issue
+    bindToController: {
+      layout: '=flItem'
     },
-    link: (scope, element, attrs, {flContainer}) => {
-      const layout = $parse(attrs.flItem)(scope);
-      const item = new Item(layout.left, layout.top, layout.width, layout.height);
+    controllerAs: 'flItem',
+    controller: function ($element) {
+      this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height);
+
+      this.render = () => {
+        $element.css('top', this.item.top * 20);
+        $element.css('left', this.item.left * 20);
+        $element.css('width', this.item.width * 20);
+        $element.css('height', this.item.height * 20);
+      }
+    },
+    link: function (scope, element, attrs, [flContainer, flItem]) {
       element.draggable({
         cursor: 'move',
         cancel: '[fl-item] > *',
-        containment: 'parent',
+        containment: '[fl-container]',
         stop: (event, ui) => {
-          console.debug(event, ui);
-          // render();
+          flContainer.moveItem(flItem, ui);
         },
         helper: 'clone'
       });
 
-      function render() {
-        element.css('top', layout.top * 20);
-        element.css('left', layout.left * 20);
-        element.css('width', layout.width * 20);
-        element.css('height', layout.height * 20);
-      }
-
-      flContainer.addItem(item);
-
-      render();
+      flContainer.initItem(flItem);
     }
-  };
+  }
 }

@@ -12,4 +12,4 @@ import '../style/app.css';
 
 export default angular.module('float', [])
   .directive('flContainer', flContainer)
-  .directive('flItem', flItem)
+  .directive('flItem', flItem);
