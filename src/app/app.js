@@ -8,8 +8,11 @@ import angular from 'angular';
 import flContainer from './directives/fl-container'
 import flItem from './directives/fl-item'
 
+import mapService from './services/map'
+
 import '../style/app.css';
 
 export default angular.module('float', [])
   .directive('flContainer', flContainer)
-  .directive('flItem', flItem);
+  .directive('flItem', flItem)
+  .service('mapService', mapService);

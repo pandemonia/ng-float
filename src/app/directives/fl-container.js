@@ -5,7 +5,7 @@ import Container from '../classes/Container'
  * Row wise collision detection and sorting
  * Snap to grid - row wise
  */
-export default function () {
+export default function (mapService) {
   return {
     restrict: 'A',
     bindToController: {
@@ -28,7 +28,7 @@ export default function () {
       }
 
       this.moveItem = (flItem, ui) => {
-        console.debug(flItem, ui);
+        Object.assign(flItem.item, mapService.px2pos(ui.position));
         this.render();
       }
     },

@@ -28,12 +28,23 @@ footer {
   width: 100%;
 }
 
+.fl-drag-clone {
+  position: absolute;
+}
+
+.fl-drag-clone .fl-drag-indicator {
+  background-color: lightblue;
+  opacity: 0.5;
+  position: absolute;
+}
+
 /* App specific styles, which should be moved out later */
 * {
   box-sizing: border-box;
 }
 
-[fl-item] {
+[fl-item],
+.fl-drag-indicator {
   padding: 5px; /* Padding determines how much wiggle room is present for the drag */
 }
 
@@ -45,16 +56,6 @@ footer {
   transition: all 0.35s linear;
 }
 
-[fl-item].ui-draggable-dragging {
-  transition: none;
-  background-color: pink;
-  opacity: 0.5;
-}
-
-[fl-item].fl-item-drag-active {
-  transition: none;
-}
-
 [fl-item] > * {
   padding: 5px;
 }
@@ -62,6 +63,8 @@ footer {
 [fl-container] {
   border: 1px solid #dddddd;
   height: 1000px;
+  margin: 0 auto;
+  width: 768px;
 }
 
 [fl-container], [fl-item] {
