@@ -11,9 +11,16 @@ export default class mapService {
 
   px2pos({left, top}) {
     return {
-      left: this._closest(left/this.colWidth, Math.floor(left/this.colWidth), Math.ceil(left/this.colWidth)),
-      top: this._closest(top/this.rowHeight, Math.floor(top/this.rowHeight), Math.ceil(top/this.rowHeight))
+      left: this._closestMultiple(left, this.colWidth),
+      top: this._closestMultiple(top, this.rowHeight)
     };
+  }
+
+  px2layout({left, top, width, height}) {
+    return Object.assign(this.px2pos({left, top}), {
+      width: this._closestMultiple(width + this.buffer, this.colWidth),
+      height: this._closestMultiple(height + this.buffer, this.rowHeight),
+    });
   }
 
   pos2px({left, top}) {
@@ -30,7 +37,10 @@ export default class mapService {
     });
   }
 
-  _closest(val, option1, option2) {
-    return val - option1 > option2 - val? option2 : option1;
+  _closestMultiple(val, divisor) {
+    const result = val/divisor;
+    const option1 = Math.floor(result);
+    const option2 = Math.ceil(result);
+    return result - option1 > option2 - result? option2 : option1;
   }
 }

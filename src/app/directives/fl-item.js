@@ -43,7 +43,7 @@ export default function (mapService) {
           },
           stop: (event, ui) => {
             indicator.empty();
-            flContainer.moveItem(flItem, ui);
+            flContainer.onItemMove(flItem.item, ui.position);
           },
           helper: function () {
             clone.css(mapService.layout2px(flItem.item));
@@ -54,21 +54,25 @@ export default function (mapService) {
       })();
 
       (() => {
-        const handles = {};
-        ['e', 'se', 's', 'sw', 'w'].forEach(direction => {
-          handles[direction] = $('<div>')
-            .addClass(`ui-resizable-handle ui-resizable-${direction} fl-resizable`)
-            .appendTo(element);
-        });
-
+        let indicator;
         element.resizable({
           containment: 'parent',
-          handles,
-          start: (...args) => {
-            console.debug('start', args);
+          handles: 'e, se, s, sw, w',
+          classes: {
+            'ui-resizable-handle': 'fl-resizable',
           },
-          stop: (...args) => {
-            console.debug('stop', args);
+          start: () => {
+            indicator = $('<div>').addClass('fl-resize-indicator fl-item');
+            element.children().clone().appendTo(indicator);
+            indicator.css(mapService.layout2px(flItem.item));
+            indicator.appendTo($('[fl-container]'));
+          },
+          resize: (event, ui) => {
+            indicator.css(mapService.layout2px(mapService.px2layout(Object.assign(ui.position, ui.size))));
+          },
+          stop: (event, ui) => {
+            indicator.remove();
+            flContainer.onItemResize(flItem.item, Object.assign(ui.position, ui.size));
           }
         });
       })();

@@ -1,9 +1,13 @@
 [fl-item].ui-resizable-resizing {
+  display: none;
+}
+
+.fl-item.fl-resize-indicator {
   border: 1px solid blue;
 }
 
-.fl-item:not(:hover):not(.ui-resizable-resizing) .fl-resizable {
-  display: none;
+.fl-item:not(:hover) .fl-resizable {
+  display: none !important;
 }
 
 .fl-resizable {
@@ -38,3 +42,7 @@
   top: calc(50% - 4px);
 }
 
+.fl-resizable-helper {
+  border: 2px solid green;
+  position: absolute;
+}

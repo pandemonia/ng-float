@@ -27,13 +27,17 @@ export default function (mapService) {
         this.flItems.forEach(flItem => flItem.render());
       }
 
-      this.moveItem = (flItem, ui) => {
-        Object.assign(flItem.item, mapService.px2pos(ui.position));
+      this.onItemMove = (item, position) => {
+        Object.assign(item, mapService.px2pos(position));
+        this.render();
+      }
+
+      this.onItemResize = (item, layout) => {
+        Object.assign(item, mapService.px2layout(layout));
         this.render();
       }
     },
     link: function (scope, element, attrs, [flContainer]) {
-      console.debug(flContainer.container);
       flContainer.render();
     }
   }
