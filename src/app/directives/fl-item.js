@@ -18,7 +18,9 @@ export default function (mapService) {
       }
     },
     link: function (scope, element, attrs, [flContainer, flItem]) {
-      const indicator = $('<div>').addClass('fl-drag-indicator');
+      element.addClass('fl-item');
+
+      const indicator = $('<div>').addClass('fl-drag-indicator').addClass('fl-item');
       const clone = $('<div>').addClass('fl-drag-clone');
       clone.append(indicator);
       element.draggable({
