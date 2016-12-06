@@ -1,0 +1,40 @@
+[fl-item].ui-resizable-resizing {
+  border: 1px solid blue;
+}
+
+.fl-item:not(:hover):not(.ui-resizable-resizing) .fl-resizable {
+  display: none;
+}
+
+.fl-resizable {
+  background-color: blue;
+  border-radius: 4px;
+  height: 8px;
+  width: 8px;
+}
+
+.fl-resizable.ui-resizable-e {
+  right: -4px;
+  top: calc(50% - 4px);
+}
+
+.fl-resizable.ui-resizable-se {
+  bottom: -4px;
+  right: -4px;
+}
+
+.fl-resizable.ui-resizable-s {
+  bottom: -4px;
+  left: calc(50% - 4px);
+}
+
+.fl-resizable.ui-resizable-sw {
+  bottom: -4px;
+  left: -4px;
+}
+
+.fl-resizable.ui-resizable-w {
+  left: -4px;
+  top: calc(50% - 4px);
+}
+

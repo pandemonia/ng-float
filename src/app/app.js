@@ -1,6 +1,7 @@
 import 'jquery-ui-css/core.css';
 import 'jquery-ui-css/menu.css';
 import 'jquery-ui-css/draggable.css';
+import 'jquery-ui-css/resizable.css';
 import 'jquery-ui-css/theme.css';
 
 import angular from 'angular';
