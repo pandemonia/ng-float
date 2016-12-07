@@ -32,10 +32,6 @@ footer {
   border: 1px solid blue;
 }
 
-[fl-item] {
-  transition: all 0.25s linear;
-}
-
 .fl-drag-clone {
   position: absolute;
 }

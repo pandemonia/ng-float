@@ -5,6 +5,10 @@ import Item from '../classes/Item'
 
 import '../../style/resizable.css';
 
+/**
+ * This directive behaves as a viewController, creating a link from the element
+ * (the view) to the model.
+ */
 export default function (mapService) {
   return {
     restrict: 'A',
@@ -22,11 +26,20 @@ export default function (mapService) {
     },
     link: function (scope, element, attrs, [flContainer, flItem]) {
       element.addClass('fl-item');
+      makeDraggable();
+      makeResizable();
+      flContainer.initItem(flItem);
 
-      (() => {
+      /**
+       * Sets the element as draggable, and while dragging creates a clone whose
+       * position and size is set to be what the element would have if dropped
+       * at that position
+       */
+      function makeDraggable() {
         const indicator = $('<div>').addClass('fl-drag-indicator fl-item');
         const clone = $('<div>').addClass('fl-drag-clone');
         clone.append(indicator);
+
         element.draggable({
           cursor: 'move',
           cancel: '[fl-item] > *',
@@ -51,21 +64,30 @@ export default function (mapService) {
             return clone;
           }
         });
-      })();
+      }
 
-      (() => {
+      /**
+       * Sets the element as resizable, with custom resize handlers.
+       * As jQuery does not support a clone object for resizing, a similar object
+       * is created on starting the resize and removed on stopping resize, and
+       * its position and size during resize are updated to be the allowed
+       * positions in the container
+       */
+      function makeResizable() {
         let indicator;
+
         element.resizable({
           containment: 'parent',
           handles: 'e, se, s, sw, w',
           classes: {
             'ui-resizable-handle': 'fl-resizable',
+            'ui-resizable-se': ''
           },
           start: () => {
             indicator = $('<div>').addClass('fl-resize-indicator fl-item');
             element.children().clone().appendTo(indicator);
             indicator.css(mapService.layout2px(flItem.item));
-            indicator.appendTo($('[fl-container]'));
+            indicator.appendTo('[fl-container]');
           },
           resize: (event, ui) => {
             indicator.css(mapService.layout2px(mapService.px2layout(Object.assign(ui.position, ui.size))));
@@ -75,9 +97,7 @@ export default function (mapService) {
             flContainer.onItemResize(flItem.item, Object.assign(ui.position, ui.size));
           }
         });
-      })();
-
-      flContainer.initItem(flItem);
+      }
     }
-  }
+  };
 }

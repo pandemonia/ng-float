@@ -6,6 +6,7 @@
   border: 1px solid blue;
 }
 
+/* jQuery's autohide option is not working, this fixes that */
 .fl-item:not(:hover) .fl-resizable {
   display: none !important;
 }
