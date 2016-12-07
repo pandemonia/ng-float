@@ -49,7 +49,7 @@ export default class Container {
     }
   }
 
-  moveItem(item, newLayout) {
+  editItem(item, newLayout) {
     this.removeItem(item);
     this.addItem(Object.assign(item, newLayout));
   }

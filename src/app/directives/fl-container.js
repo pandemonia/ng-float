@@ -29,12 +29,12 @@ export default function (mapService) {
       }
 
       this.onItemMove = (item, position) => {
-        this.container.moveItem(item, mapService.px2pos(position));
+        this.container.editItem(item, mapService.px2pos(position));
         this.render();
       }
 
       this.onItemResize = (item, layout) => {
-        Object.assign(item, mapService.px2layout(layout));
+        this.container.editItem(item, mapService.px2layout(layout));
         this.render();
       }
     },
