@@ -24,11 +24,12 @@ export default function (mapService) {
       }
 
       this.render = () => {
+        this.container.removeGaps();
         this.flItems.forEach(flItem => flItem.render());
       }
 
       this.onItemMove = (item, position) => {
-        Object.assign(item, mapService.px2pos(position));
+        this.container.moveItem(item, mapService.px2pos(position));
         this.render();
       }
 
