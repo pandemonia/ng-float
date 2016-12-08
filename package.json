@@ -14,13 +14,8 @@
   },
   "author": "Nalin Ilango",
   "license": "MIT",
-  "dependencies": {
-    "angular": "^1.5.0",
-    "jquery": "^3.1.1",
-    "jquery-ui": "^1.12.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "angular-mocks": "^1.5.0",
     "autoprefixer": "^6.0.3",
     "babel-core": "^6.2.1",
     "babel-loader": "^6.2.0",

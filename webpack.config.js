@@ -69,12 +69,12 @@ module.exports = function makeWebpackConfig () {
     config.devtool = 'eval-source-map';
   }
 
-  config.resolve = {
-    alias: {
-      'jquery-ui': 'jquery-ui/ui/widgets',
-      'jquery-ui-css': 'jquery-ui/../../themes/base'
-    }
-  };
+  // config.resolve = {
+  //   alias: {
+  //     'jquery-ui': 'jquery-ui/ui/widgets',
+  //     'jquery-ui-css': 'jquery-ui/../../themes/base'
+  //   }
+  // };
 
   /**
    * Loaders
@@ -169,10 +169,6 @@ module.exports = function makeWebpackConfig () {
         inject: 'body'
       }),
 
-      new webpack.ProvidePlugin({
-        'window.jQuery': 'jquery'
-      }),
-
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Extract css files
       // Disabled when in test mode or not in build mode
@@ -211,6 +207,11 @@ module.exports = function makeWebpackConfig () {
   config.devServer = {
     contentBase: './src/public',
     stats: 'minimal'
+  };
+
+  config.externals = {
+    angular: 'angular',
+    jquery: 'jQuery'
   };
 
   return config;

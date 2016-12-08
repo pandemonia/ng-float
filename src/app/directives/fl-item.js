@@ -1,6 +1,4 @@
 import $ from 'jquery';
-import 'jquery-ui/draggable';
-import 'jquery-ui/resizable';
 import Item from '../classes/Item'
 
 import '../../style/resizable.css';
