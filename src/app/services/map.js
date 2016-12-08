@@ -1,4 +1,4 @@
-export default class mapService {
+class mapService {
   constructor(width = 768, numColumns = 30, buffer = 4) {
     this.width = width;
     this.numColumns = numColumns;
@@ -44,3 +44,5 @@ export default class mapService {
     return result - option1 > option2 - result? option2 : option1;
   }
 }
+
+export default new mapService();

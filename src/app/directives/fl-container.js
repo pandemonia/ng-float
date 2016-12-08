@@ -1,11 +1,12 @@
 import Container from '../classes/Container'
+import mapService from '../services/map'
 
 /**
  * TODO:
  * Row wise collision detection and sorting
  * Snap to grid - row wise
  */
-export default function (mapService) {
+export default function () {
   return {
     restrict: 'A',
     bindToController: {

@@ -5,11 +5,13 @@ import Item from '../classes/Item'
 
 import '../../style/resizable.css';
 
+import mapService from '../services/map'
+
 /**
  * This directive behaves as a viewController, creating a link from the element
  * (the view) to the model.
  */
-export default function (mapService) {
+export default function () {
   return {
     restrict: 'A',
     require: ['^flContainer', 'flItem'], //This creates a self reference, not sure if it is an issue
@@ -17,13 +19,13 @@ export default function (mapService) {
       layout: '=flItem'
     },
     controllerAs: 'flItem',
-    controller: function ($element) {
+    controller: ['$element', function ($element) {
       this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height);
 
       this.render = () => {
         $element.css(mapService.layout2px(this.item));
       }
-    },
+    }],
     link: function (scope, element, attrs, [flContainer, flItem]) {
       element.addClass('fl-item');
       makeDraggable();

@@ -1,0 +1,22 @@
+{
+  "name": "float",
+  "description": "A javascript library for building floating draggable layouts",
+  "main": "",
+  "authors": [
+    "Nalin Ilango"
+  ],
+  "main": [
+    "dist/app.1707657e697473787600.js",
+    "dist/app.1707657e697473787600.css"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/pandemonia/float",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
