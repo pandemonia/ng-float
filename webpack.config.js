@@ -49,11 +49,11 @@ module.exports = function makeWebpackConfig () {
 
     // Filename for entry points
     // Only adds hash in build mode
-    filename: isProd ? '[name].[hash].js' : '[name].bundle.js',
+    filename: 'float.js',
 
     // Filename for non-entry points
     // Only adds hash in build mode
-    chunkFilename: isProd ? '[name].[hash].js' : '[name].bundle.js'
+    chunkFilename: 'float.js'
   };
 
   /**
@@ -63,18 +63,9 @@ module.exports = function makeWebpackConfig () {
    */
   if (isTest) {
     config.devtool = 'inline-source-map';
-  } else if (isProd) {
-    config.devtool = 'source-map';
-  } else {
+  } else if (!isProd) {
     config.devtool = 'eval-source-map';
   }
-
-  // config.resolve = {
-  //   alias: {
-  //     'jquery-ui': 'jquery-ui/ui/widgets',
-  //     'jquery-ui-css': 'jquery-ui/../../themes/base'
-  //   }
-  // };
 
   /**
    * Loaders
@@ -108,15 +99,6 @@ module.exports = function makeWebpackConfig () {
       // Reference: https://github.com/webpack/style-loader
       // Use style-loader in development.
       loader: isTest ? 'null' : ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!postcss-loader')
-    }, {
-      // ASSET LOADER
-      // Reference: https://github.com/webpack/file-loader
-      // Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
-      // Rename the file using the asset hash
-      // Pass along the updated reference to your code
-      // You can add here any file extension you want to get copied to your output
-      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-      loader: 'file'
     }, {
       // HTML LOADER
       // Reference: https://github.com/webpack/raw-loader
@@ -172,7 +154,7 @@ module.exports = function makeWebpackConfig () {
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Extract css files
       // Disabled when in test mode or not in build mode
-      new ExtractTextPlugin('[name].[hash].css', {disable: !isProd})
+      new ExtractTextPlugin('float.css', {disable: !isProd})
     )
   }
 

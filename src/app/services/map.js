@@ -1,12 +1,12 @@
 class mapService {
-  constructor(width = 768, numColumns = 30, buffer = 4) {
+  constructor(width = 768, rowHeight = 15, numColumns = 60, buffer = 4) {
     this.width = width;
     this.numColumns = numColumns;
     this.buffer = buffer;
+    this.rowHeight = rowHeight;
 
     // colWidth and rowHeight include buffer
     this.colWidth = (this.width - (numColumns - 1) * buffer)/numColumns + buffer;
-    this.rowHeight = this.colWidth;
   }
 
   px2pos({left, top}) {
