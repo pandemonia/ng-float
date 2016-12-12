@@ -1,5 +1,4 @@
 import Container from '../classes/Container'
-import mapService from '../services/map'
 
 /**
  * TODO:
@@ -10,35 +9,38 @@ export default function () {
   return {
     restrict: 'A',
     bindToController: {
-      options: '=',
+      options: '=flContainer',
       isEditable: '='
     },
     require: ['flContainer'],
     controllerAs: 'flContainer',
-    controller: function () {
-      this.flItems = [];
-      this.container = new Container([]);
+    controller: ['Mapper', class FlContainer {
+      constructor(Mapper) {
+        this.flItems = [];
+        this.container = new Container([]);
+        this.mapper = new Mapper(this.options);
+      }
 
-      this.initItem = flItem => {
+      initItem(flItem) {
         this.container.addItem(flItem.item);
         this.flItems.push(flItem);
       }
 
-      this.render = () => {
+      render() {
         this.container.removeGaps();
-        this.flItems.forEach(flItem => flItem.render());
+        this.flItems.forEach(flItem => flItem.render(this.mapper.layout2px(flItem.item)));
       }
 
-      this.onItemMove = (item, position) => {
-        this.container.editItem(item, mapService.px2pos(position));
+      onItemMove (item, position) {
+        this.container.editItem(item, this.mapper.px2pos(position));
         this.render();
       }
 
-      this.onItemResize = (item, layout) => {
-        this.container.editItem(item, mapService.px2layout(layout));
+      onItemResize (item, layout) {
+        this.container.editItem(item, this.mapper.px2layout(layout));
         this.render();
       }
-    },
+    }],
     link: function (scope, element, attrs, [flContainer]) {
       flContainer.render();
     }

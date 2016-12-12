@@ -3,8 +3,6 @@ import Item from '../classes/Item'
 
 import '../../style/resizable.css';
 
-import mapService from '../services/map'
-
 /**
  * This directive behaves as a viewController, creating a link from the element
  * (the view) to the model.
@@ -17,11 +15,14 @@ export default function () {
       layout: '=flItem'
     },
     controllerAs: 'flItem',
-    controller: ['$element', function ($element) {
-      this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height);
+    controller: ['$element', class FlItem {
+      constructor($element) {
+        this.$element = $element;
+        this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height);
+      }
 
-      this.render = () => {
-        $element.css(mapService.layout2px(this.item));
+      render(css) {
+        this.$element.css(css);
       }
     }],
     link: function (scope, element, attrs, [flContainer, flItem]) {
@@ -48,7 +49,7 @@ export default function () {
             element.children().clone().appendTo(indicator);
           },
           drag: (event, ui) => {
-            const indicatorPos = mapService.pos2px(mapService.px2pos(ui.position));
+            const indicatorPos = flContainer.mapper.pos2px(flContainer.mapper.px2pos(ui.position));
             indicator.css({
               left: indicatorPos.left - ui.position.left,
               top: indicatorPos.top - ui.position.top
@@ -59,8 +60,8 @@ export default function () {
             flContainer.onItemMove(flItem.item, ui.position);
           },
           helper: function () {
-            clone.css(mapService.layout2px(flItem.item));
-            indicator.css(mapService.layout2px(flItem.item));
+            clone.css(flContainer.mapper.layout2px(flItem.item));
+            indicator.css(flContainer.mapper.layout2px(flItem.item));
             return clone;
           }
         });
@@ -86,11 +87,11 @@ export default function () {
           start: () => {
             indicator = $('<div>').addClass('fl-resize-indicator fl-item');
             element.children().clone().appendTo(indicator);
-            indicator.css(mapService.layout2px(flItem.item));
+            indicator.css(flContainer.mapper.layout2px(flItem.item));
             indicator.appendTo('[fl-container]');
           },
           resize: (event, ui) => {
-            indicator.css(mapService.layout2px(mapService.px2layout(Object.assign(ui.position, ui.size))));
+            indicator.css(flContainer.mapper.layout2px(flContainer.mapper.px2layout(Object.assign(ui.position, ui.size))));
           },
           stop: (event, ui) => {
             indicator.remove();

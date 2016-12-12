@@ -1,12 +1,13 @@
-class mapService {
-  constructor(width = 768, rowHeight = 15, numColumns = 60, buffer = 4) {
-    this.width = width;
+ class Mapper {
+  constructor({width = 768, rowHeight = 15, numColumns = 60, buffer = 4, minHeight = 4, minWidth = 10}) {
     this.numColumns = numColumns;
     this.buffer = buffer;
     this.rowHeight = rowHeight;
+    this.minHeight = minHeight;
+    this.minWidth = minWidth;
 
     // colWidth and rowHeight include buffer
-    this.colWidth = (this.width - (numColumns - 1) * buffer)/numColumns + buffer;
+    this.colWidth = (width - (numColumns - 1) * buffer)/numColumns + buffer;
   }
 
   px2pos({left, top}) {
@@ -17,10 +18,10 @@ class mapService {
   }
 
   px2layout({left, top, width, height}) {
-    return Object.assign(this.px2pos({left, top}), {
+    return Object.assign(this.px2pos({left, top}), this.checkMinimum({
       width: this._closestMultiple(width + this.buffer, this.colWidth),
       height: this._closestMultiple(height + this.buffer, this.rowHeight),
-    });
+    }));
   }
 
   pos2px({left, top}) {
@@ -37,6 +38,13 @@ class mapService {
     });
   }
 
+  checkMinimum({width, height}) {
+    return {
+      width: Math.max(this.minWidth, width),
+      height: Math.max(this.minHeight, height)
+    };
+  }
+
   _closestMultiple(val, divisor) {
     const result = val/divisor;
     const option1 = Math.floor(result);
@@ -45,4 +53,6 @@ class mapService {
   }
 }
 
-export default new mapService();
+export default function MapperFactory() {
+  return Mapper;
+}
