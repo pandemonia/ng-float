@@ -12,7 +12,6 @@ export default function () {
       options: '=flContainer',
       isEditable: '='
     },
-    require: ['flContainer'],
     controllerAs: 'flContainer',
     controller: ['Mapper', class FlContainer {
       constructor(Mapper) {
@@ -24,6 +23,7 @@ export default function () {
       initItem(flItem) {
         this.container.addItem(flItem.item);
         this.flItems.push(flItem);
+        this.render();
       }
 
       render() {
@@ -40,9 +40,6 @@ export default function () {
         this.container.editItem(item, this.mapper.px2layout(layout));
         this.render();
       }
-    }],
-    link: function (scope, element, attrs, [flContainer]) {
-      flContainer.render();
-    }
+    }]
   }
 }
