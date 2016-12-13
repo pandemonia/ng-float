@@ -12,7 +12,8 @@ export default function () {
     restrict: 'A',
     require: ['^flContainer', 'flItem'], //This creates a self reference, not sure if it is an issue
     bindToController: {
-      layout: '=flItem'
+      layout: '=flItem',
+      resizable: '='
     },
     controllerAs: 'flItem',
     controller: ['$element', class FlItem {
@@ -28,7 +29,7 @@ export default function () {
     link: function (scope, element, attrs, [flContainer, flItem]) {
       element.addClass('fl-item');
       makeDraggable();
-      makeResizable();
+      makeResizable(flItem.resizable);
       flContainer.initItem(flItem);
 
       /**
@@ -73,13 +74,23 @@ export default function () {
        * is created on starting the resize and removed on stopping resize, and
        * its position and size during resize are updated to be the allowed
        * positions in the container
+       *
+       * @param {Integer} resizable Takes one of three integer values which
+       *                            determine the handles being shown
+       *                            0 = is not resizable
+       *                            1 = is resizable horizontally
+       *                            2 = resizable freely
        */
-      function makeResizable() {
+      function makeResizable(resizable = 2) {
+        if (!resizable) {
+          return;
+        }
+
         let indicator;
 
         element.resizable({
           containment: 'parent',
-          handles: 'e, se, s, sw, w',
+          handles: resizable === 1? 'e, w' : 'e, se, s, sw, w',
           classes: {
             'ui-resizable-handle': 'fl-resizable',
             'ui-resizable-se': ''
