@@ -1,5 +1,3 @@
-
-
 main {
   display: block;
   font-family: Arial, Helvetica, sans-serif;
@@ -39,28 +37,4 @@ footer {
 .fl-drag-clone .fl-drag-indicator {
   background-color: lightblue;
   opacity: 0.5;
-}
-
-/* App specific styles, which should be moved out later */
-* {
-  box-sizing: border-box;
-}
-
-.fl-item {
-  padding: 5px; /* Padding determines how much wiggle room is present for the drag */
-}
-
-.fl-item > *:not(.ui-resizable-handle) {
-  padding: 5px;
-}
-
-[fl-container] {
-  border: 1px solid #dddddd;
-  height: 1000px;
-  margin: 0 auto;
-  width: 768px;
-}
-
-[fl-container], [fl-item] {
-  border: 1px solid #cccccc;
 }

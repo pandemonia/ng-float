@@ -1,5 +1,6 @@
  class Mapper {
   constructor({width = 768, rowHeight = 15, numColumns = 60, buffer = 4, minHeight = 4, minWidth = 10}) {
+    this.width = width;
     this.numColumns = numColumns;
     this.buffer = buffer;
     this.rowHeight = rowHeight;
@@ -34,8 +35,12 @@
   layout2px({left, top, width, height}) {
     return Object.assign(this.pos2px({left, top}), {
       width: width * this.colWidth - this.buffer,
-      height: height * this.rowHeight -  this.buffer
+      height: this.height2px(height)
     });
+  }
+
+  height2px(height) {
+    return height * this.rowHeight -  this.buffer;
   }
 
   checkMinimum({width, height}) {

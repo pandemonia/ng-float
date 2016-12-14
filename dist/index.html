@@ -9,6 +9,31 @@
         integrity="sha384-xewr6kSkq3dBbEtB6Z/3oFZmknWn7nHqhLVLrYgzEFRbU/DHSxW7K3B44yWUN60D"
         crossorigin="anonymous">
 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .fl-item {
+      padding: 5px; /* Padding determines how much wiggle room is present for the drag */
+    }
+
+    .fl-item > *:not(.ui-resizable-handle) {
+      padding: 5px;
+    }
+
+    [fl-container] {
+      border: 1px solid #dddddd;
+      height: 1000px;
+      margin: 0 auto;
+      width: 768px;
+    }
+
+    [fl-container], [fl-item] {
+      border: 1px solid #cccccc;
+    }
+  </style>
+
   <base href="/">
 <link href="/float.css" rel="stylesheet"></head>
 <body ng-cloak>

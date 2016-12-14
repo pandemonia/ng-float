@@ -48,6 +48,7 @@ export default function () {
           containment: 'parent',
           start: () => {
             element.children().clone().appendTo(indicator);
+            flContainer.onItemEditStart();
           },
           drag: (event, ui) => {
             const indicatorPos = flContainer.mapper.pos2px(flContainer.mapper.px2pos(ui.position));
@@ -100,6 +101,8 @@ export default function () {
             element.children().clone().appendTo(indicator);
             indicator.css(flContainer.mapper.layout2px(flItem.item));
             indicator.appendTo('[fl-container]');
+
+            flContainer.onItemEditStart();
           },
           resize: (event, ui) => {
             indicator.css(flContainer.mapper.layout2px(flContainer.mapper.px2layout(Object.assign(ui.position, ui.size))));

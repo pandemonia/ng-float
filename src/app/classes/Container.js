@@ -88,4 +88,10 @@ export default class Container {
       }
     }
   }
+
+  getMaxHeight() {
+    return this.rows.reduce((sum, row) => {
+      return Math.max.apply(undefined, [sum].concat(row.items.map(item => item.top + item.height)));
+    }, 0);
+  }
 }

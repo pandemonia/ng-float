@@ -13,11 +13,13 @@ export default function () {
       isEditable: '='
     },
     controllerAs: 'flContainer',
-    controller: ['Mapper', class FlContainer {
-      constructor(Mapper) {
+    controller: ['Mapper', '$element', class FlContainer {
+      constructor(Mapper, $element) {
         this.flItems = [];
         this.container = new Container([]);
         this.mapper = new Mapper(this.options);
+        this.$element = $element;
+        this.$element.width(this.mapper.width);
       }
 
       initItem(flItem) {
@@ -28,15 +30,20 @@ export default function () {
 
       render() {
         this.container.removeGaps();
+        this.$element.height(this.mapper.height2px(this.container.getMaxHeight()))
         this.flItems.forEach(flItem => flItem.render(this.mapper.layout2px(flItem.item)));
       }
 
-      onItemMove (item, position) {
+      onItemEditStart() {
+        this.$element.height(this.$element.height() + 1000);
+      }
+
+      onItemMove(item, position) {
         this.container.editItem(item, this.mapper.px2pos(position));
         this.render();
       }
 
-      onItemResize (item, layout) {
+      onItemResize(item, layout) {
         this.container.editItem(item, this.mapper.px2layout(layout));
         this.render();
       }
