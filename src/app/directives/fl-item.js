@@ -32,6 +32,10 @@ export default function () {
       makeResizable(flItem.resizable);
       flContainer.initItem(flItem);
 
+      element.on('remove', () => {
+        flContainer.onItemRemove(flItem.item);
+      });
+
       /**
        * Sets the element as draggable, and while dragging creates a clone whose
        * position and size is set to be what the element would have if dropped

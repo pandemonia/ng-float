@@ -47,6 +47,11 @@ export default function () {
         this.container.editItem(item, this.mapper.px2layout(layout));
         this.render();
       }
+
+      onItemRemove(item) {
+        this.container.removeItem(item);
+        this.render();
+      }
     }]
   }
 }
