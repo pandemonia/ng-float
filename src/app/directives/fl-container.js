@@ -19,7 +19,7 @@ export default function () {
         this.container = new Container([]);
         this.mapper = new Mapper(this.options);
         this.$element = $element;
-        this.$element.width(this.mapper.width);
+        this.$element.css('width', this.mapper.width);
       }
 
       initItem(flItem) {
@@ -30,12 +30,12 @@ export default function () {
 
       render() {
         this.container.removeGaps();
-        this.$element.height(this.mapper.height2px(this.container.getMaxHeight()))
+        this.$element.css('height', this.mapper.height2px(this.container.getMaxHeight()) + 100)
         this.flItems.forEach(flItem => flItem.render(this.mapper.layout2px(flItem.item)));
       }
 
       onItemEditStart() {
-        this.$element.height(this.$element.height() + 1000);
+        this.$element.css('height', this.$element.height() + 1000);
       }
 
       onItemMove(item, position) {
