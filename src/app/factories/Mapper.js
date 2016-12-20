@@ -11,13 +11,19 @@
     this.colWidth = (width - (numColumns - 1) * buffer)/numColumns + buffer;
   }
 
-  px2layout({left, top, width, height}) {
-    return this.checkConstraints({
-      left: this._closestMultiple(left, this.colWidth),
-      top: this._closestMultiple(top, this.rowHeight),
-      width: Math.ceil((width + this.buffer)/this.colWidth),
-      height: Math.ceil((height + this.buffer)/this.rowHeight),
-    });
+  /** All sides (left, right, top, bottom) are snapped to a grid */
+  px2layout(pixels) {
+    const left = this._closestMultiple(pixels.left, this.colWidth);
+    const top = this._closestMultiple(pixels.top, this.rowHeight);
+    const right = this._closestMultiple(pixels.left + pixels.width, this.colWidth);
+    const bottom = this._closestMultiple(pixels.top + pixels.height, this.rowHeight);
+
+    return {
+      left,
+      top,
+      width: right - left,
+      height: bottom - top,
+    };
   }
 
   layout2px({left, top, width, height}) {
@@ -33,12 +39,60 @@
     return height * this.rowHeight -  this.buffer;
   }
 
-  checkConstraints({width, height, left, top}) {
+  getClosestPosition(pixels) {
+    return this.layout2px(this.checkPositionConstraints(this.px2layout(pixels)));
+  }
+
+  getClosestSize(pixels) {
+    return this.layout2px(this.checkSizeConstraints(this.px2layout(pixels)));
+  }
+
+  checkPositionConstraints({width, height, left, top}) {
+    // Right container
+    if (left + width > this.numColumns) {
+      left = this.numColumns - width;
+    }
+
+    // Left container
+    if (left < 0) {
+      left = 0;
+    }
+
+    // Top container
+    if (top < 0) {
+      top = 0;
+    }
+
     return {
       left,
       top,
-      width: Math.max(this.minWidth, width),
-      height: Math.max(this.minHeight, height)
+      width,
+      height
+    };
+  }
+
+  checkSizeConstraints({width, height, left, top}) {
+    // Right container
+    if (left + width > this.numColumns) {
+      width = this.numColumns - left;
+    }
+
+    if (left < 0) {
+      const right = left + width;
+      left = 0;
+      width = right - left;
+    }
+
+    if (width < this.minWidth) {
+      width = this.minWidth;
+    }
+
+    if (height < this.minHeight) {
+      height = this.minHeight;
+    }
+
+    return {
+      left, top, width, height
     };
   }
 
