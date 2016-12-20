@@ -38,8 +38,10 @@ export default function () {
       });
 
       scope.$on('flItemChanged', function () {
-        console.debug('flItemChanged called on ', element, flItem.item);
-        console.debug(flItem.getHeight(element));
+        const newLayout = setMinHeight(flItem.item);
+        if (newLayout.height !== flItem.item.height) {
+          flContainer.onItemEditEnd(flItem.item, newLayout);
+        }
       });
 
       /**
@@ -103,6 +105,11 @@ export default function () {
 
         let indicator;
 
+        function getNewLayout(ui) {
+          const newLayout = flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size), element.data('ui-resizable').axis.includes('w'));
+          return setMinHeight(newLayout);
+        }
+
         element.resizable({
           handles: resizable === 1? 'e, w' : 'e, se, s, sw, w',
           classes: {
@@ -118,16 +125,25 @@ export default function () {
             flContainer.onItemEditStart();
           },
           resize: (event, ui) => {
-            if (flItem.getHeight) {
-              console.debug(flItem.getHeight(element, ui.size.width));
-            }
-            indicator.css(flContainer.mapper.layout2px(flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size), element.data('ui-resizable').axis.includes('w'))));
+            indicator.css(flContainer.mapper.layout2px(getNewLayout(ui)));
           },
           stop: (event, ui) => {
             indicator.remove();
-            flContainer.onItemEditEnd(flItem.item, flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size), element.data('ui-resizable').axis.includes('w')));
+            flContainer.onItemEditEnd(flItem.item, getNewLayout(ui));
           }
         });
+      }
+
+      function setMinHeight(layout) {
+        if (flItem.getHeight) {
+          const pixels = flContainer.mapper.layout2px(layout);
+          const contentHeight = flItem.getHeight(element, pixels.width);
+          if (flItem.resizable === 1 || contentHeight > layout.height) {
+            pixels.height = contentHeight;
+            return flContainer.mapper.px2layout(pixels);
+          }
+        }
+        return layout;
       }
     }
   };

@@ -16,8 +16,8 @@
   px2layout(pixels) {
     const left = this._closestMultiple(pixels.left, this.colWidth);
     const top = this._closestMultiple(pixels.top, this.rowHeight);
-    const right = this._closestMultiple(this.left2px(left) + pixels.width, this.colWidth);
-    const bottom = this._closestMultiple(this.top2px(top) + pixels.height, this.rowHeight);
+    const right = Math.ceil((this.left2px(left) + pixels.width)/this.colWidth);
+    const bottom = Math.ceil((this.top2px(top) + pixels.height)/this.rowHeight);
 
     return {
       left,
