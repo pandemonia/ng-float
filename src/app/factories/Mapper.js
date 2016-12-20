@@ -16,8 +16,8 @@
   px2layout(pixels) {
     const left = this._closestMultiple(pixels.left, this.colWidth);
     const top = this._closestMultiple(pixels.top, this.rowHeight);
-    const right = this._closestMultiple(pixels.left + pixels.width, this.colWidth);
-    const bottom = this._closestMultiple(pixels.top + pixels.height, this.rowHeight);
+    const right = this._closestMultiple(this.left2px(left) + pixels.width, this.colWidth);
+    const bottom = this._closestMultiple(this.top2px(top) + pixels.height, this.rowHeight);
 
     return {
       left,
@@ -29,11 +29,23 @@
 
   layout2px({left, top, width, height}) {
     return {
-      left: left * this.colWidth,
-      top: top * this.rowHeight,
-      width: width * this.colWidth - this.buffer,
+      left: this.left2px(left),
+      top: this.top2px(top),
+      width: this.width2px(width),
       height: this.height2px(height)
     };
+  }
+
+  left2px(left) {
+    return left * this.colWidth;
+  }
+
+  top2px(top) {
+    return top * this.rowHeight;
+  }
+
+  width2px(width) {
+    return width * this.colWidth - this.buffer;
   }
 
   height2px(height) {
@@ -41,11 +53,11 @@
   }
 
   getClosestPosition(pixels) {
-    return this.layout2px(this.checkPositionConstraints(this.px2layout(pixels)));
+    return this.checkPositionConstraints(this.px2layout(pixels));
   }
 
-  getClosestSize(pixels) {
-    return this.layout2px(this.checkSizeConstraints(this.px2layout(pixels)));
+  getClosestSize(pixels, axis) {
+    return this.checkSizeConstraints(this.px2layout(pixels), axis);
   }
 
   checkPositionConstraints({width, height, left, top}) {
@@ -72,7 +84,7 @@
     };
   }
 
-  checkSizeConstraints({width, height, left, top}) {
+  checkSizeConstraints({width, height, left, top}, isLeft) {
     // Right container
     if (left + width > this.numColumns) {
       width = this.numColumns - left;
@@ -85,6 +97,10 @@
     }
 
     if (width < this.minWidth) {
+      // If it was shrunk from the left handler, then move the leftside back
+      if (isLeft) {
+        left -= this.minWidth - width;
+      }
       width = this.minWidth;
     }
 

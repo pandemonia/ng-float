@@ -69,7 +69,8 @@ export default function () {
             flContainer.onItemEditStart();
           },
           drag: (event, ui) => {
-            const indicatorPos = flContainer.mapper.getClosestPosition(Object.assign(size, ui.position));
+            const indicatorPos = flContainer.mapper.layout2px(flContainer.mapper.getClosestPosition(Object.assign(size, ui.position)));
+
             indicator.css({
               left: indicatorPos.left - ui.position.left,
               top: indicatorPos.top - ui.position.top
@@ -120,11 +121,11 @@ export default function () {
             if (flItem.getHeight) {
               console.debug(flItem.getHeight(element, ui.size.width));
             }
-            indicator.css(flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size)));
+            indicator.css(flContainer.mapper.layout2px(flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size), element.data('ui-resizable').axis.includes('w'))));
           },
           stop: (event, ui) => {
             indicator.remove();
-            flContainer.onItemEditEnd(flItem.item, flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size)));
+            flContainer.onItemEditEnd(flItem.item, flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size), element.data('ui-resizable').axis.includes('w')));
           }
         });
       }

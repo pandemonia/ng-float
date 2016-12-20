@@ -41,7 +41,7 @@ export default function () {
       }
 
       onItemEditEnd(item, layout) {
-        this.container.editItem(item, this.mapper.px2layout(layout));
+        this.container.editItem(item, layout);
         this.render();
       }
 
