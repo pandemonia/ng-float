@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import Container from '../classes/Container'
 
 /**
@@ -20,6 +21,7 @@ export default function () {
         this.mapper = new Mapper(this.options);
         this.$element = $element;
         this.$element.css('width', this.mapper.width);
+        this.setDefaultStyles();
       }
 
       initItem(flItem) {
@@ -47,6 +49,18 @@ export default function () {
         this.container.removeItem(item);
         this.render();
       }
+
+      setDefaultStyles() {
+        $(`<style>
+            .fl-item > *:not(.ui-resizable-handle) {
+              margin: ${this.mapper.dragBuffer}px;
+              width: calc(100% - ${this.mapper.dragBuffer * 2}px);
+              height: calc(100% - ${this.mapper.dragBuffer * 2}px);
+            }
+          </style>`
+        ).appendTo('head');
+      }
+
     }]
   }
 }

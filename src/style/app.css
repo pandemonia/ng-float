@@ -22,8 +22,6 @@ footer {
 
 [fl-item] > *:not(.ui-resizable-handle) {
   cursor: initial;
-  height: 100%;
-  width: 100%;
 }
 
 [fl-item]:hover {

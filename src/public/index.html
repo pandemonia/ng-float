@@ -14,10 +14,6 @@
       box-sizing: border-box;
     }
 
-    .fl-item {
-      padding: 5px; /* Padding determines how much wiggle room is present for the drag */
-    }
-
     .fl-item > *:not(.ui-resizable-handle) {
       padding: 5px;
     }
@@ -34,25 +30,25 @@
   <base href="/">
 </head>
 <body ng-cloak>
-  <div fl-container="{width: 768, rowHeight: 15, numColumns: 60, buffer: 4, minHeight: 4, minWidth: 10}">
+  <div fl-container="{width: 768, rowHeight: 15, numColumns: 60, buffer: 4, minHeight: 4, minWidth: 10, dragBuffer: 5}">
     <div fl-item="{left: 0, top: 0, height: 4, width: 20}"
-         resizable="1">
+         fl-resizable="1">
       <div>1</div>
     </div>
     <div fl-item="{left: 20, top: 2, height: 4, width: 20}"
-         resizable="2">
+         fl-resizable="2">
       <div>2</div>
     </div>
     <div fl-item="{left: 50, top: 5, height: 10, width: 10}"
-         resizable="1">
+         fl-resizable="1">
       <div>3</div>
     </div>
     <div fl-item="{left: 0, top: 15, height: 10, width: 60}"
-         resizable="0">
+         fl-resizable="0">
       <div>4</div>
     </div>
     <div fl-item="{left: 2, top: 6, height: 4, width: 40}"
-         resizable="2">
+         fl-resizable="2">
       <div>5</div>
     </div>
   </div>
