@@ -13,7 +13,8 @@ export default function () {
     require: ['^flContainer', 'flItem'], //This creates a self reference, not sure if it is an issue
     bindToController: {
       layout: '=flItem',
-      resizable: '='
+      resizable: '=flResizable',
+      getHeight: '=flGetHeight'
     },
     controllerAs: 'flItem',
     controller: ['$element', class FlItem {
@@ -32,8 +33,13 @@ export default function () {
       makeResizable(flItem.resizable);
       flContainer.initItem(flItem);
 
-      element.on('remove', () => {
+      scope.$on('$destroy', () => {
         flContainer.onItemRemove(flItem.item);
+      });
+
+      scope.$on('flItemChanged', function () {
+        console.debug('flItemChanged called on ', element, flItem.item);
+        console.debug(flItem.getHeight(element));
       });
 
       /**
@@ -46,16 +52,27 @@ export default function () {
         const clone = $('<div>').addClass('fl-drag-clone');
         clone.append(indicator);
 
+        const layout = {};
+
         element.draggable({
           cursor: 'move',
           cancel: '[fl-item] > *',
           containment: 'parent',
+          helper: function () {
+            clone.css(flContainer.mapper.layout2px(flItem.item));
+            indicator.css(flContainer.mapper.layout2px(flItem.item));
+            return clone;
+          },
           start: () => {
+            layout.width = element.width();
+            layout.height = element.height();
+
             element.children().clone().appendTo(indicator);
             flContainer.onItemEditStart();
           },
           drag: (event, ui) => {
-            const indicatorPos = flContainer.mapper.pos2px(flContainer.mapper.px2pos(ui.position));
+            Object.assign(layout, ui.position);
+            const indicatorPos = flContainer.mapper.layout2px(flContainer.mapper.px2layout(ui.position));
             indicator.css({
               left: indicatorPos.left - ui.position.left,
               top: indicatorPos.top - ui.position.top
@@ -63,12 +80,8 @@ export default function () {
           },
           stop: (event, ui) => {
             indicator.empty();
-            flContainer.onItemMove(flItem.item, ui.position);
-          },
-          helper: function () {
-            clone.css(flContainer.mapper.layout2px(flItem.item));
-            indicator.css(flContainer.mapper.layout2px(flItem.item));
-            return clone;
+            Object.assign(layout, ui.position);
+            flContainer.onItemEditEnd(flItem.item, layout);
           }
         });
       }
@@ -109,11 +122,14 @@ export default function () {
             flContainer.onItemEditStart();
           },
           resize: (event, ui) => {
+            if (flItem.getHeight) {
+              console.debug(flItem.getHeight(element, ui.size.width));
+            }
             indicator.css(flContainer.mapper.layout2px(flContainer.mapper.px2layout(Object.assign(ui.position, ui.size))));
           },
           stop: (event, ui) => {
             indicator.remove();
-            flContainer.onItemResize(flItem.item, Object.assign(ui.position, ui.size));
+            flContainer.onItemEditEnd(flItem.item, Object.assign(ui.position, ui.size));
           }
         });
       }

@@ -38,12 +38,7 @@ export default function () {
         this.$element.css('height', this.$element.height() + 1000);
       }
 
-      onItemMove(item, position) {
-        this.container.editItem(item, this.mapper.px2pos(position));
-        this.render();
-      }
-
-      onItemResize(item, layout) {
+      onItemEditEnd(item, layout) {
         this.container.editItem(item, this.mapper.px2layout(layout));
         this.render();
       }

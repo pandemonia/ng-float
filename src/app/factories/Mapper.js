@@ -11,40 +11,32 @@
     this.colWidth = (width - (numColumns - 1) * buffer)/numColumns + buffer;
   }
 
-  px2pos({left, top}) {
-    return {
-      left: this._closestMultiple(left, this.colWidth),
-      top: this._closestMultiple(top, this.rowHeight)
-    };
-  }
-
   px2layout({left, top, width, height}) {
-    return Object.assign(this.px2pos({left, top}), this.checkMinimum({
-      width: this._closestMultiple(width + this.buffer, this.colWidth),
-      height: this._closestMultiple(height + this.buffer, this.rowHeight),
-    }));
-  }
-
-  pos2px({left, top}) {
-    return {
-      left: left * this.colWidth,
-      top: top * this.rowHeight
-    };
+    return this.checkConstraints({
+      left: this._closestMultiple(left, this.colWidth),
+      top: this._closestMultiple(top, this.rowHeight),
+      width: Math.ceil((width + this.buffer)/this.colWidth),
+      height: Math.ceil((height + this.buffer)/this.rowHeight),
+    });
   }
 
   layout2px({left, top, width, height}) {
-    return Object.assign(this.pos2px({left, top}), {
+    return {
+      left: left * this.colWidth,
+      top: top * this.rowHeight,
       width: width * this.colWidth - this.buffer,
       height: this.height2px(height)
-    });
+    };
   }
 
   height2px(height) {
     return height * this.rowHeight -  this.buffer;
   }
 
-  checkMinimum({width, height}) {
+  checkConstraints({width, height, left, top}) {
     return {
+      left,
+      top,
       width: Math.max(this.minWidth, width),
       height: Math.max(this.minHeight, height)
     };
