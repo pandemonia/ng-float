@@ -25,8 +25,9 @@ export default function () {
         this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height);
       }
 
-      render(css) {
+      render(css, updatedLayout) {
         this.$element.css(css);
+        Object.assign(this.layout, updatedLayout);
       }
     }],
     link: function (scope, element, attrs, [flContainer, flItem]) {
