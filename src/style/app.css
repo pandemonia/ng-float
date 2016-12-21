@@ -24,8 +24,12 @@ footer {
   cursor: initial;
 }
 
+[fl-item] {
+  border: 1px solid transparent;
+}
+
 [fl-item]:hover {
-  border: 1px solid blue;
+  border-color: blue;
 }
 
 .fl-drag-clone {

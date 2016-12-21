@@ -14,7 +14,9 @@ export default function () {
     bindToController: {
       layout: '=flItem',
       resizable: '=flResizable',
-      getHeight: '=flGetHeight'
+      getHeight: '=flGetHeight',
+      onResize: '&flResize',
+      onDrag: '&flDrag'
     },
     controllerAs: 'flItem',
     controller: ['$element', class FlItem {
@@ -81,6 +83,9 @@ export default function () {
           stop: (event, ui) => {
             indicator.empty();
             flContainer.onItemEditEnd(flItem.item, flContainer.mapper.getClosestPosition(Object.assign(size, ui.position)));
+            if (flItem.onDrag) {
+              flItem.onDrag();
+            }
           }
         });
       }
@@ -130,6 +135,9 @@ export default function () {
           stop: (event, ui) => {
             indicator.remove();
             flContainer.onItemEditEnd(flItem.item, getNewLayout(ui));
+            if (flItem.onResize) {
+              flItem.onResize();
+            }
           }
         });
       }
