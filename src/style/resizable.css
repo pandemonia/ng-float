@@ -2,8 +2,11 @@
   display: none;
 }
 
-.fl-item.fl-resize-indicator {
+.fl-resize-indicator {
   border: 1px solid blue;
+  background-color: blue;
+  opacity: 0.3;
+  z-index: 1;
 }
 
 /* jQuery's autohide option is not working, this fixes that */
