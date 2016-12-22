@@ -31,7 +31,7 @@ footer {
 }
 
 [fl-item] {
-  box-sizing: content-box;
+  border: 1px solid transparent;
 }
 
 [fl-item]:hover {

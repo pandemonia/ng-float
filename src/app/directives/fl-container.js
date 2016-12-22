@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from 'jquery'
 import Container from '../classes/Container'
 
 /**
@@ -21,6 +21,7 @@ export default function () {
         this.mapper = new Mapper(this.options);
         this.$element = $element;
         this.$element.css('width', this.mapper.width);
+        this.setupListeners();
       }
 
       initItem(flItem) {
@@ -52,6 +53,18 @@ export default function () {
       onItemRemove(item) {
         this.container.removeItem(item);
         this.render();
+      }
+
+      setupListeners() {
+        this.$element.on('dblclick', e => {
+          if ($(e.target).is(this.$element)) {
+            const pos = this.mapper.px2pos({left: e.offsetX, top: e.offsetY});
+            console.debug(this.container.getClosestTop(Object.assign(pos, {
+              width: this.mapper.minWidth,
+              height: this.mapper.minHeight
+            })));
+          }
+        });
       }
     }]
   }

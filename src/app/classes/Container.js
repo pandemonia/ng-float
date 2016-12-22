@@ -1,4 +1,5 @@
 import Row from './Row'
+import Item from './Item'
 
 export default class Container {
   constructor(items = []) {
@@ -93,5 +94,24 @@ export default class Container {
     return this.rows.reduce((sum, row) => {
       return Math.max.apply(undefined, [sum].concat(row.items.map(item => item.top + item.height)));
     }, 0);
+  }
+
+  getClosestTop(layout) {
+    console.debug(layout);
+    if (this.rows.length === 0) {
+      layout.top = 0;
+    } else {
+      for (let i = this.rows.length - 1; i > 0; i--) {
+        if (this.rows[i].top < layout.top) {
+          console.debug(this.rows[i]);
+          layout.top = this.rows[i].top;
+          console.debug(this.rows[i].getOverlap(layout, false));
+          layout.top += this.rows[i].getOverlap(layout, false);
+          break;
+        }
+      }
+    }
+
+    return layout;
   }
 }
