@@ -20,7 +20,7 @@ footer {
   position: absolute;
 }
 
-[fl-item] > *:not(.ui-resizable-handle) {
+[fl-item] [fl-drag-cancel] {
   cursor: initial;
 }
 

@@ -14,9 +14,7 @@ export default function () {
     bindToController: {
       layout: '=flItem',
       resizable: '=flResizable',
-      getHeight: '=flGetHeight',
-      onResize: '&flResize',
-      onDrag: '&flDrag'
+      getHeight: '=flGetHeight'
     },
     controllerAs: 'flItem',
     controller: ['$element', class FlItem {
@@ -61,9 +59,9 @@ export default function () {
 
         element.draggable({
           cursor: 'move',
-          cancel: '[fl-item] > *',
+          cancel: '[fl-drag-cancel]',
           helper: () => clone,
-          start: () => {
+          start: (event) => {
             size.width = element.outerWidth();
             size.height = element.outerHeight();
 
@@ -72,6 +70,7 @@ export default function () {
 
             element.children().clone().appendTo(indicator);
             flContainer.onItemEditStart();
+            scope.$broadcast('flDragStart', event);
           },
           drag: (event, ui) => {
             const indicatorPos = flContainer.mapper.layout2px(flContainer.mapper.getClosestPosition(Object.assign(size, ui.position)));
@@ -84,9 +83,7 @@ export default function () {
           stop: (event, ui) => {
             indicator.empty();
             flContainer.onItemEditEnd(flItem.item, flContainer.mapper.getClosestPosition(Object.assign(size, ui.position)));
-            if (flItem.onDrag) {
-              flItem.onDrag();
-            }
+            scope.$broadcast('flDragStop', event);
           }
         });
       }
@@ -122,12 +119,13 @@ export default function () {
             'ui-resizable-handle': 'fl-resizable',
             'ui-resizable-se': ''
           },
-          start: () => {
+          start: (event) => {
             indicator = $('<div>').addClass('fl-resize-indicator fl-item');
             indicator.css(flContainer.mapper.layout2px(flItem.item));
             indicator.appendTo('[fl-container]');
 
             flContainer.onItemEditStart();
+            scope.$broadcast('flResizeStart', event);
           },
           resize: (event, ui) => {
             indicator.css(flContainer.mapper.layout2px(getNewLayout(ui)));
@@ -135,9 +133,7 @@ export default function () {
           stop: (event, ui) => {
             indicator.remove();
             flContainer.onItemEditEnd(flItem.item, getNewLayout(ui));
-            if (flItem.onResize) {
-              flItem.onResize();
-            }
+            scope.$broadcast('flResizeStop', event);
           }
         });
       }
