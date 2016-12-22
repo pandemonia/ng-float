@@ -1,12 +1,11 @@
  class Mapper {
-  constructor({width = 768, rowHeight = 15, numColumns = 60, buffer = 4, minHeight = 4, minWidth = 10, dragBuffer = 5}) {
+  constructor({width = 768, rowHeight = 15, numColumns = 60, buffer = 4, minHeight = 4, minWidth = 10}) {
     this.width = width;
     this.numColumns = numColumns;
     this.buffer = buffer;
     this.rowHeight = rowHeight;
     this.minHeight = minHeight;
     this.minWidth = minWidth;
-    this.dragBuffer = dragBuffer;
 
     // colWidth and rowHeight include buffer
     this.colWidth = (width - (numColumns - 1) * buffer)/numColumns + buffer;

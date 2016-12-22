@@ -25,6 +25,11 @@ footer {
   cursor: initial;
 }
 
+[fl-item] > :not(.ui-draggable-handle) {
+  height: 100%;
+  width: 100%;
+}
+
 [fl-item] {
   border: 1px solid transparent;
 }
