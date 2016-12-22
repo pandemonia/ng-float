@@ -12,6 +12,7 @@ footer {
 }
 
 [fl-container] {
+  box-sizing: content-box;
   position: relative;
 }
 
