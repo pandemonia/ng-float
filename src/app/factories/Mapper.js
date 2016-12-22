@@ -16,7 +16,7 @@
     const left = this._closestMultiple(pixels.left, this.colWidth);
     const top = this._closestMultiple(pixels.top, this.rowHeight);
     const right = Math.ceil((this.left2px(left) + pixels.width)/this.colWidth);
-    const bottom = Math.ceil((this.top2px(top) + pixels.height)/this.rowHeight);
+    const bottom = Math.ceil((this.top2px(top) + pixels.height + this.buffer)/this.rowHeight);
 
     return {
       left,
