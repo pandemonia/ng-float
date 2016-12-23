@@ -1,5 +1,4 @@
 import Row from './Row'
-import Item from './Item'
 
 export default class Container {
   constructor(items = []) {

@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import Container from '../classes/Container'
 
 /**
@@ -54,12 +53,8 @@ export default function () {
         this.render();
       }
 
-      getNewItemDimensions(position) {
-        const pos = this.mapper.px2pos(position);
-        return this.container.getClosestTop(this.mapper.checkPositionConstraints(Object.assign(pos, {
-          width: this.mapper.minWidth,
-          height: this.mapper.minHeight
-        })));
+      getNewItemDimensions(pixels) {
+        return this.container.getClosestTop(this.mapper.getClosestPosition(pixels));
       }
     }]
   }

@@ -13,14 +13,17 @@
 
   /** All sides (left, right, top, bottom) are snapped to a grid */
   px2layout(pixels) {
-    const pos = this.px2pos(pixels);
-    const right = Math.ceil((this.left2px(pos.left) + pixels.width)/this.colWidth);
-    const bottom = Math.ceil((this.top2px(pos.top) + pixels.height + this.buffer)/this.rowHeight);
+    const left = this._closestMultiple(pixels.left, this.colWidth);
+    const top = this._closestMultiple(pixels.top, this.rowHeight);
+    const right = Math.ceil((this.left2px(left) + pixels.width)/this.colWidth);
+    const bottom = Math.ceil((this.top2px(top) + pixels.height + this.buffer)/this.rowHeight);
 
-    return Object.assign(pos, {
-      width: right - pos.left,
-      height: bottom - pos.top,
-    });
+    return {
+      left,
+      top,
+      width: right - left,
+      height: bottom - top,
+    };
   }
 
   layout2px({left, top, width, height}) {
@@ -29,13 +32,6 @@
       top: this.top2px(top),
       width: this.width2px(width),
       height: this.height2px(height)
-    };
-  }
-
-  px2pos({left, top}) {
-    return {
-      left: this._closestMultiple(left, this.colWidth),
-      top: this._closestMultiple(top, this.rowHeight),
     };
   }
 
