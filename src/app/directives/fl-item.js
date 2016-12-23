@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from 'jQuery';
 import Item from '../classes/Item'
 
 import '../../style/resizable.css';

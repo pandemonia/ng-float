@@ -110,4 +110,29 @@ export default class Container {
 
     return layout;
   }
+
+  getWidthAtPos({left, top}) {
+    let leftSide = 0, rightSide = Infinity;
+
+    this.rows.forEach(row => {
+      if (row.top >= top) {
+        return false;
+      }
+
+      row.items.forEach(item => {
+        if (item.top + item.height > top) {
+          if (item.left < left) {
+            leftSide = Math.max(leftSide, item.left + item.width);
+          } else {
+            rightSide = Math.min(rightSide, item.left);
+          }
+        }
+      });
+    });
+
+    return {
+      left: leftSide,
+      width: rightSide - leftSide
+    };
+  }
 }

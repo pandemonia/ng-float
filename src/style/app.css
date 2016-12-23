@@ -38,6 +38,8 @@ footer {
   border-color: blue;
 }
 
+/** Draggable */
+
 .fl-drag-clone {
   position: absolute;
 }
@@ -45,4 +47,14 @@ footer {
 .fl-drag-clone .fl-drag-indicator {
   background-color: lightblue;
   opacity: 0.5;
+}
+
+/** Drop */
+
+.fl-drop-indicator {
+  background-color: blue;
+  border-radius: 2px;
+  pointer-events: none;
+  position: absolute;
+  height: 5px;
 }

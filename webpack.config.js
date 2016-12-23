@@ -193,7 +193,8 @@ module.exports = function makeWebpackConfig () {
 
   config.externals = {
     angular: 'angular',
-    jquery: 'jQuery'
+    jQuery: 'jQuery',
+    lodash: '_'
   };
 
   return config;

@@ -1,3 +1,5 @@
+import $ from 'jQuery';
+import _ from 'lodash';
 import Container from '../classes/Container'
 
 /**
@@ -10,7 +12,8 @@ export default function () {
     restrict: 'A',
     bindToController: {
       options: '=flContainer',
-      isEditable: '='
+      isEditable: '=',
+      createElementsAtPosition: '&flCreateElementsAtPosition'
     },
     controllerAs: 'flContainer',
     controller: ['Mapper', '$element', class FlContainer {
@@ -20,6 +23,7 @@ export default function () {
         this.mapper = new Mapper(this.options);
         this.$element = $element;
         this.$element.css('width', this.mapper.width);
+        this.setupDropListeners();
       }
 
       initItem(flItem) {
@@ -55,6 +59,76 @@ export default function () {
 
       getNewItemDimensions(pixels) {
         return this.container.getClosestTop(this.mapper.getClosestPosition(pixels));
+      }
+
+      setupDropListeners() {
+        function _setDropIndicatorPos(left = -10000, top = -10000, width = 0) {
+          dropIndicator.css({
+            marginLeft: left,
+            marginTop: top,
+            width: width
+          });
+        }
+
+        const dropIndicator = $('<div>').addClass('fl-drop-indicator').appendTo(this.$element);
+        _setDropIndicatorPos();
+
+        const throttledDragoverCallback = _.throttle(event => {
+          if ($(event.target).is(this.$element)) {
+            const pos = this.mapper.px2pos({
+              left: event.offsetX,
+              top: event.offsetY
+            });
+
+            const layout = Object.assign(pos, this.container.getWidthAtPos(pos));
+            layout.height = this.mapper.minHeight;
+            layout.width = Math.min(layout.width, this.mapper.numColumns - layout.left);
+            if (layout.width < this.mapper.minWidth) {
+              _setDropIndicatorPos();
+            } else {
+              const pixels = this.mapper.layout2px(this.mapper.checkPositionConstraints(layout));
+
+              _setDropIndicatorPos(pixels.left, pixels.top, pixels.width);
+            }
+          } else {
+            _setDropIndicatorPos();
+          }
+        }, 50);
+
+        this.$element.on('dragover', event => {
+          event.preventDefault();
+          event.stopPropagation();
+          throttledDragoverCallback(event);
+        });
+
+        this.$element.on('dragleave', event => {
+          event.preventDefault();
+          event.stopPropagation();
+          throttledDragoverCallback.cancel();
+          _setDropIndicatorPos();
+        });
+
+        this.$element.on('drop', event => {
+          event.preventDefault();
+          event.stopPropagation();
+          throttledDragoverCallback.cancel();
+          _setDropIndicatorPos();
+
+          if ($(event.target).is(this.$element)) {
+            const pos = this.mapper.px2pos({
+              left: event.offsetX,
+              top: event.offsetY
+            });
+
+            const layout = Object.assign(pos, this.container.getWidthAtPos(pos));
+            layout.height = this.mapper.minHeight;
+            if (layout.width >= this.mapper.minWidth) {
+              layout.width = Math.min(layout.width, this.mapper.numColumns - layout.left);
+              const adjustedLayout = this.mapper.checkPositionConstraints(layout);
+              this.createElementsAtPosition({event: event, dimensions: adjustedLayout});
+            }
+          }
+        });
       }
     }]
   }
