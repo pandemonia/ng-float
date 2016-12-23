@@ -21,7 +21,6 @@ export default function () {
         this.mapper = new Mapper(this.options);
         this.$element = $element;
         this.$element.css('width', this.mapper.width);
-        this.setupListeners();
       }
 
       initItem(flItem) {
@@ -55,16 +54,12 @@ export default function () {
         this.render();
       }
 
-      setupListeners() {
-        this.$element.on('dblclick', e => {
-          if ($(e.target).is(this.$element)) {
-            const pos = this.mapper.px2pos({left: e.offsetX, top: e.offsetY});
-            console.debug(this.container.getClosestTop(Object.assign(pos, {
-              width: this.mapper.minWidth,
-              height: this.mapper.minHeight
-            })));
-          }
-        });
+      getNewItemDimensions(position) {
+        const pos = this.mapper.px2pos(position);
+        return this.container.getClosestTop(this.mapper.checkPositionConstraints(Object.assign(pos, {
+          width: this.mapper.minWidth,
+          height: this.mapper.minHeight
+        })));
       }
     }]
   }
