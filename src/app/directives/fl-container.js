@@ -1,6 +1,6 @@
 import $ from 'jQuery';
 import _ from 'lodash';
-import Container from '../classes/Container'
+import Container from '../classes/Container';
 
 /**
  * TODO:
@@ -16,14 +16,15 @@ export default function () {
       createElementsAtPosition: '&flCreateElementsAtPosition'
     },
     controllerAs: 'flContainer',
-    controller: ['Mapper', '$element', class FlContainer {
-      constructor(Mapper, $element) {
+    controller: ['Mapper', '$element', '$document', '$scope', class FlContainer {
+      constructor(Mapper, $element, $document, $scope) {
         this.flItems = [];
         this.container = new Container([]);
         this.mapper = new Mapper(this.options);
         this.$element = $element;
         this.$element.css('width', this.mapper.width);
         this.setupDropListeners();
+        this.setupVisitListeners($document, $scope);
       }
 
       initItem(flItem) {
@@ -128,6 +129,24 @@ export default function () {
               this.createElementsAtPosition({event: event, dimensions: adjustedLayout});
             }
           }
+        });
+      }
+
+      setupVisitListeners(document, scope) {
+        function onClick(event) {
+          const item = $(event.target).closest('[fl-item]').eq(0);
+
+          if (item) {
+            item.addClass('fl-item-selected');
+          }
+
+          $('[fl-item]').not(item).removeClass('fl-item-selected');
+        }
+
+        document.on('click', onClick);
+
+        scope.$on('$destroy', () => {
+          document.off('click', onClick);
         });
       }
     }]
