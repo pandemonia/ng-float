@@ -34,7 +34,7 @@ footer {
   border: 1px solid transparent;
 }
 
-[fl-item]:hover {
+[fl-item]:hover, [fl-item].fl-item-selected {
   border-color: blue;
 }
 
