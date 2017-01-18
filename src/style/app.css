@@ -17,24 +17,27 @@ footer {
 }
 
 .fl-item {
-  cursor: move;
   position: absolute;
 }
 
-[fl-item] [fl-drag-cancel] {
+.fl-edit {
+  cursor: move;
+}
+
+.fl-edit [fl-drag-cancel] {
   cursor: initial;
 }
 
-[fl-item] > :not(.ui-resizable-handle) {
+.fl-item > :not(.ui-resizable-handle) {
   height: 100%;
   width: 100%;
 }
 
-[fl-item] {
+.fl-edit {
   border: 1px solid transparent;
 }
 
-[fl-item]:hover, [fl-item].fl-item-selected {
+.fl-edit:hover, .fl-edit.fl-item-selected {
   border-color: blue;
 }
 

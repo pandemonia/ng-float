@@ -29,10 +29,16 @@ export default function () {
       }
     }],
     link: function (scope, element, attrs, [flContainer, flItem]) {
+      flContainer.initItem(flItem);
       element.addClass('fl-item');
+
+      if (!flContainer.isEditable) {
+        return;
+      }
+
+      element.addClass('fl-edit');
       makeDraggable();
       makeResizable(flItem.resizable);
-      flContainer.initItem(flItem);
 
       scope.$on('$destroy', () => {
         flContainer.onItemRemove(flItem.item);

@@ -1,4 +1,4 @@
-[fl-item].ui-resizable-resizing {
+.fl-edit.ui-resizable-resizing {
   display: none;
 }
 
@@ -10,7 +10,7 @@
 }
 
 /* jQuery's autohide option is not working, this fixes that */
-.fl-item:not(:hover):not(.fl-item-selected) .fl-resizable {
+.fl-edit:not(:hover):not(.fl-item-selected) .fl-resizable {
   display: none !important;
 }
 

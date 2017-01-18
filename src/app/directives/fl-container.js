@@ -2,11 +2,6 @@ import $ from 'jQuery';
 import _ from 'lodash';
 import Container from '../classes/Container';
 
-/**
- * TODO:
- * Row wise collision detection and sorting
- * Snap to grid - row wise
- */
 export default function () {
   return {
     restrict: 'A',
@@ -23,8 +18,11 @@ export default function () {
         this.mapper = new Mapper(this.options);
         this.$element = $element;
         this.$element.css('width', this.mapper.width);
-        this.setupDropListeners();
-        this.setupVisitListeners($document, $scope);
+
+        if (this.isEditable) {
+          this.setupDropListeners();
+          this.setupVisitListeners($document, $scope);
+        }
       }
 
       initItem(flItem) {
