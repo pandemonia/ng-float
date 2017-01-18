@@ -7,7 +7,7 @@ export default function () {
     restrict: 'A',
     bindToController: {
       options: '=flContainer',
-      isEditable: '=',
+      isEditable: '=flEditable',
       createElementsAtPosition: '&flCreateElementsAtPosition'
     },
     controllerAs: 'flContainer',
