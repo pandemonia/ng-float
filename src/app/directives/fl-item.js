@@ -148,7 +148,7 @@ export default function () {
         if (flItem.getHeight) {
           const pixels = flContainer.mapper.layout2px(layout);
           const contentHeight = flItem.getHeight(element, pixels.width);
-          if (flItem.resizable <= 1 || contentHeight > pixels.height) {
+          if (contentHeight > pixels.height) {
             pixels.height = contentHeight;
             return flContainer.mapper.px2layout(pixels);
           }
