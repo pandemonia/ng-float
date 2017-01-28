@@ -28,11 +28,6 @@ footer {
   cursor: initial;
 }
 
-.fl-item > :not(.ui-resizable-handle) {
-  height: 100%;
-  width: 100%;
-}
-
 .fl-edit {
   border: 1px solid transparent;
 }
