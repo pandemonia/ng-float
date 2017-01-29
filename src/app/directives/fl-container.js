@@ -11,11 +11,12 @@ export default function () {
       createElementsAtPosition: '&flCreateElementsAtPosition'
     },
     controllerAs: 'flContainer',
-    controller: ['Mapper', '$element', '$document', '$scope', class FlContainer {
-      constructor(Mapper, $element, $document, $scope) {
+    controller: ['Mapper', '$element', '$document', '$scope', '$timeout', class FlContainer {
+      constructor(Mapper, $element, $document, $scope, $timeout) {
         this.flItems = [];
         this.mapper = new Mapper(this.options);
         this.$element = $element;
+        this.$timeout = $timeout;
         this.$element.css('width', this.mapper.width);
 
         if (this.isEditable) {
@@ -28,7 +29,9 @@ export default function () {
         this.flItems.push(flItem);
         if (flItem.lastRepeat) {
           this.container = new Container(this.flItems.map(flItem => flItem.item));
-          this.render();
+          this.$timeout(() => {
+            this.render();
+          });
         }
       }
 
