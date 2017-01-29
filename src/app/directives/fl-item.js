@@ -14,7 +14,8 @@ export default function () {
     bindToController: {
       layout: '=flItem',
       resizable: '=flResizable',
-      getHeight: '=flGetHeight'
+      getHeight: '=flGetHeight',
+      lastRepeat: '=flLastRepeat'
     },
     controllerAs: 'flItem',
     controller: ['$element', class FlItem {

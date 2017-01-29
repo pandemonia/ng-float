@@ -14,7 +14,6 @@ export default function () {
     controller: ['Mapper', '$element', '$document', '$scope', class FlContainer {
       constructor(Mapper, $element, $document, $scope) {
         this.flItems = [];
-        this.container = new Container([]);
         this.mapper = new Mapper(this.options);
         this.$element = $element;
         this.$element.css('width', this.mapper.width);
@@ -26,9 +25,11 @@ export default function () {
       }
 
       initItem(flItem) {
-        this.container.addItem(flItem.item);
         this.flItems.push(flItem);
-        this.render();
+        if (flItem.lastRepeat) {
+          this.container = new Container(this.flItems.map(flItem => flItem.item));
+          this.render();
+        }
       }
 
       render() {

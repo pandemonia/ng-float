@@ -82,7 +82,6 @@ export default class Container {
     for (let i = 1; i < this.rows.length; i++) {
       maxTop = Math.max(maxTop, this.rows[i - 1].top + this.rows[i - 1].getHeight());
       const gap = this.rows[i].top - maxTop;
-
       if (gap > 0) {
         this.shiftRows(this.rows.slice(i), -gap);
       }

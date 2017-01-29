@@ -47,17 +47,17 @@
        ng-init="items = [
                    {layout: {left: 10, top: 28, height: 4, width: 40}, resizable: 2, value: 5},
                    {layout: {left: 0, top: 18, height: 10, width: 60}, resizable: 0, value: 4},
-                   {layout: {left: 0, top: 8, height: 10, width: 12}, resizable: 1, value: 3},
-                   {layout: {left: 0, top: 4, height: 4, width: 20}, resizable: 2, value: 2},
+                   {layout: {left: 0, top: 4, height: 10, width: 12}, resizable: 1, value: 3},
+                   {layout: {left: 20, top: 2, height: 4, width: 20}, resizable: 2, value: 2},
                    {layout: {left: 0, top: 0, height: 4, width: 20}, resizable: 1, value: 1}
                 ]">
     <element ng-repeat="item in items track by ::item.value"
              fl-item="item.layout"
+             fl-last-repeat="$last"
              fl-resizable="item.resizable">
       <div ng-bind="::item.value" class="value" fl-drag-cancel></div>
     </element>
   </div>
-
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.3/lodash.min.js"
           integrity="sha384-jsG12NEMqgAmlKLBiSdTZPy1CbxTUU2AykyyLMKaLCAIvk1bAmNXGkZ5pnJHmO/l"
