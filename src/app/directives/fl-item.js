@@ -57,7 +57,7 @@ export default function () {
        * at that position
        */
       function makeDraggable() {
-        const indicator = $('<div>').addClass('fl-drag-indicator fl-item');
+        const indicator = $('<' + element[0].nodeName.toLowerCase() + '>').addClass('fl-drag-indicator fl-item');
         const clone = $('<div>').addClass('fl-drag-clone');
         clone.append(indicator);
 

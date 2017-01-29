@@ -14,8 +14,12 @@
       box-sizing: border-box;
     }
 
-    .fl-item > *:not(.ui-resizable-handle) {
-      padding: 5px;
+    element {
+      display: block;
+    }
+
+    element .value {
+      margin: 10px;
     }
 
     [fl-container] {
@@ -39,27 +43,19 @@
 <link href="/float.css" rel="stylesheet"></head>
 <body ng-cloak>
   <div fl-container="{width: 768, rowHeight: 15, numColumns: 60, buffer: 4, minHeight: 4, minWidth: 10}"
-       fl-editable="false">
-    <div fl-item="{left: 0, top: 0, height: 4, width: 20}"
-         fl-resizable="1">
-      <div>1</div>
-    </div>
-    <div fl-item="{left: 20, top: 2, height: 4, width: 20}"
-         fl-resizable="2">
-      <div>2</div>
-    </div>
-    <div fl-item="{left: 50, top: 5, height: 10, width: 10}"
-         fl-resizable="1">
-      <div>3</div>
-    </div>
-    <div fl-item="{left: 0, top: 15, height: 10, width: 60}"
-         fl-resizable="0">
-      <div>4</div>
-    </div>
-    <div fl-item="{left: 2, top: 6, height: 4, width: 40}"
-         fl-resizable="2">
-      <div>5</div>
-    </div>
+       fl-editable="true"
+       ng-init="items = [
+                   {layout: {left: 10, top: 28, height: 4, width: 40}, resizable: 2, value: 5},
+                   {layout: {left: 0, top: 18, height: 10, width: 60}, resizable: 0, value: 4},
+                   {layout: {left: 0, top: 8, height: 10, width: 12}, resizable: 1, value: 3},
+                   {layout: {left: 0, top: 4, height: 4, width: 20}, resizable: 2, value: 2},
+                   {layout: {left: 0, top: 0, height: 4, width: 20}, resizable: 1, value: 1}
+                ]">
+    <element ng-repeat="item in items track by ::item.value"
+             fl-item="item.layout"
+             fl-resizable="item.resizable">
+      <div ng-bind="::item.value" class="value" fl-drag-cancel></div>
+    </element>
   </div>
 
 
