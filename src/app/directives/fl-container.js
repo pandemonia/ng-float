@@ -27,11 +27,17 @@ export default function () {
 
       initItem(flItem) {
         this.flItems.push(flItem);
-        if (flItem.lastRepeat) {
-          this.container = new Container(this.flItems.map(flItem => flItem.item));
-          this.$timeout(() => {
-            this.render();
-          });
+
+        if (this.container) {
+          this.container.addItem(flItem.item);
+          this.render();
+        } else {
+            if (flItem.lastRepeat) {
+            this.container = new Container(this.flItems.map(flItem => flItem.item));
+            this.$timeout(() => {
+              this.render();
+            });
+          }
         }
       }
 

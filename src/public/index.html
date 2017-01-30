@@ -55,7 +55,7 @@
              fl-item="item.layout"
              fl-last-repeat="$last"
              fl-resizable="item.resizable">
-      <div ng-bind="::item.value" class="value" fl-drag-cancel></div>
+      <div ng-bind="::item.value" class="value" fl-drag-cancel ng-click="items.splice($index, 1)"></div>
     </element>
   </div>
 
