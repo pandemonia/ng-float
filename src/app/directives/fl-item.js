@@ -30,6 +30,8 @@ export default function () {
       }
     }],
     link: function (scope, element, attrs, [flContainer, flItem]) {
+      var resizeOption = flItem.resizable; // 0 = not resizable, 1 = sides, 2 = sides + bottom
+
       flContainer.initItem(flItem);
       element.addClass('fl-item');
 
@@ -39,7 +41,7 @@ export default function () {
 
       element.addClass('fl-edit');
       makeDraggable();
-      makeResizable(flItem.resizable);
+      makeResizable();
 
       scope.$on('$destroy', () => {
         flContainer.onItemRemove(flItem.item);
@@ -50,6 +52,11 @@ export default function () {
         if (newLayout.height !== flItem.item.height) {
           flContainer.onItemEditEnd(flItem.item, newLayout);
         }
+      });
+
+      scope.$on('flResizeChanged', function(event, option) {
+        resizeOption = option;
+        setResizeHandles();
       });
 
       /**
@@ -108,8 +115,8 @@ export default function () {
        *                            1 = is resizable horizontally
        *                            2 = resizable freely
        */
-      function makeResizable(resizable = 2) {
-        if (!resizable) {
+      function makeResizable() {
+        if (!resizeOption) {
           return;
         }
 
@@ -121,7 +128,6 @@ export default function () {
         }
 
         element.resizable({
-          handles: resizable === 1? 'e, w' : 'e, se, s, sw, w',
           classes: {
             'ui-resizable-handle': 'fl-resizable',
             'ui-resizable-se': ''
@@ -143,6 +149,11 @@ export default function () {
             scope.$broadcast('flResizeStop', event);
           }
         });
+        setResizeHandles();
+      }
+
+      function setResizeHandles() {
+        element.resizable('option', 'handles', resizeOption === 1? 'e, w' : 'e, se, s, sw, w');
       }
 
       function setMinHeight(layout) {
