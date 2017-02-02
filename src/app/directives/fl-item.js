@@ -154,8 +154,10 @@ export default function () {
         if (flItem.getHeight) {
           const pixels = flContainer.mapper.layout2px(layout);
           const contentHeight = flItem.getHeight(element, pixels.width, isFreeSize);
-          pixels.height = contentHeight;
-          return flContainer.mapper.px2layout(pixels);
+          if (contentHeight > pixels.height) {
+            pixels.height = contentHeight;
+            return flContainer.mapper.px2layout(pixels);
+          }
         }
         return layout;
       }
