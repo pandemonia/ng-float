@@ -1,0 +1,75 @@
+<!doctype html>
+<html ng-app="float" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Float</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+        integrity="sha384-xewr6kSkq3dBbEtB6Z/3oFZmknWn7nHqhLVLrYgzEFRbU/DHSxW7K3B44yWUN60D"
+        crossorigin="anonymous">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    element {
+      display: block;
+    }
+
+    element .value {
+      margin: 10px;
+    }
+
+    [fl-container] {
+      margin: 0 auto;
+    }
+
+    [fl-container] {
+      border: 1px solid #cccccc;
+    }
+
+    .fl-item {
+      background-color: hsl(120, 50%, 90%);
+    }
+
+    .fl-item-selected {
+      background-color: hsl(120, 60%, 80%);
+    }
+  </style>
+
+  <base href="/">
+<link href="/float.css" rel="stylesheet"></head>
+<body ng-cloak>
+  <div fl-container="{width: 768, rowHeight: 15, numColumns: 60, buffer: 4, minHeight: 4, minWidth: 10}"
+       fl-editable="true"
+       ng-init="items = [
+                   {layout: {left: 10, top: 28, height: 4, width: 40}, resizable: 2, value: 5},
+                   {layout: {left: 0, top: 18, height: 10, width: 60}, resizable: 0, value: 4},
+                   {layout: {left: 0, top: 4, height: 10, width: 12}, resizable: 1, value: 3},
+                   {layout: {left: 20, top: 2, height: 4, width: 20}, resizable: 2, value: 2},
+                   {layout: {left: 0, top: 0, height: 4, width: 20}, resizable: 1, value: 1}
+                ]">
+    <element ng-repeat="item in items track by ::item.value"
+             fl-item="item.layout"
+             fl-last-repeat="$last"
+             fl-resizable="item.resizable">
+      <div ng-bind="::item.value" class="value" fl-drag-cancel ng-click="items.splice($index, 1)"></div>
+    </element>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.3/lodash.min.js"
+          integrity="sha384-jsG12NEMqgAmlKLBiSdTZPy1CbxTUU2AykyyLMKaLCAIvk1bAmNXGkZ5pnJHmO/l"
+          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+          integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
+          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+          integrity="sha384-Dziy8F2VlJQLMShA6FHWNul/veM9bCkRUaLqr199K94ntO5QUrLJBEbYegdSkkqX"
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.min.js"
+          integrity="sha384-MQTyNyhCr96y6ItLIqO7FcZAkmdmuJJRVtMELyyi5jpMTRuFW1J4FkcO8HtsSO0v"
+          crossorigin="anonymous"></script>
+<script type="text/javascript" src="/float.js"></script></body>
+</html>
