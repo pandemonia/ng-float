@@ -48,7 +48,7 @@ export default function () {
       });
 
       scope.$on('flItemChanged', function () {
-        const newLayout = setMinHeight(flItem.item);
+        const newLayout = setMinHeight(flItem.item, false);
         if (newLayout.height !== flItem.item.height) {
           flContainer.onItemEditEnd(flItem.item, newLayout);
         }
@@ -108,12 +108,6 @@ export default function () {
        * is created on starting the resize and removed on stopping resize, and
        * its position and size during resize are updated to be the allowed
        * positions in the container
-       *
-       * @param {Integer} resizable Takes one of three integer values which
-       *                            determine the handles being shown
-       *                            0 = is not resizable
-       *                            1 = is resizable horizontally
-       *                            2 = resizable freely
        */
       function makeResizable() {
         if (!resizeOption) {
@@ -124,7 +118,7 @@ export default function () {
 
         function getNewLayout(ui) {
           const newLayout = flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size), element.data('ui-resizable').axis.includes('w'));
-          return setMinHeight(newLayout);
+          return setMinHeight(newLayout, true);
         }
 
         element.resizable({
@@ -156,14 +150,12 @@ export default function () {
         element.resizable('option', 'handles', resizeOption === 1? 'e, w' : 'e, se, s, sw, w');
       }
 
-      function setMinHeight(layout) {
+      function setMinHeight(layout, isFreeSize) {
         if (flItem.getHeight) {
           const pixels = flContainer.mapper.layout2px(layout);
-          const contentHeight = flItem.getHeight(element, pixels.width);
-          if (flItem.resizable <= 1 || contentHeight > pixels.height) {
-            pixels.height = contentHeight;
-            return flContainer.mapper.px2layout(pixels);
-          }
+          const contentHeight = flItem.getHeight(element, pixels.width, isFreeSize);
+          pixels.height = contentHeight;
+          return flContainer.mapper.px2layout(pixels);
         }
         return layout;
       }
