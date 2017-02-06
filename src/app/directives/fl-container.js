@@ -23,8 +23,22 @@ export default function () {
           this.setupDropListeners();
           this.setupVisitListeners($document, $scope);
         }
+
+        // Giving a 500ms timeout for ngRepeat items to kick in. If there are no
+        // items then it means the container is empty.
+        $timeout(() => {
+          if (!this.container && this.flItems.length === 0) {
+            this.container = new Container();
+            this.render();
+          }
+        }, 500);
       }
 
+      /**
+       * Adds an item to the container. If the container is not initiated,
+       * it is initiated at the last repeat of the ngRepeat iteration which
+       * the items are in.
+       */
       initItem(flItem) {
         this.flItems.push(flItem);
 
@@ -32,7 +46,7 @@ export default function () {
           this.container.addItem(flItem.item);
           this.render();
         } else {
-            if (flItem.lastRepeat) {
+          if (flItem.lastRepeat) {
             this.container = new Container(this.flItems.map(flItem => flItem.item));
             this.$timeout(() => {
               this.render();
@@ -140,7 +154,11 @@ export default function () {
         });
       }
 
-      setupVisitListeners(document, scope) {
+      /**
+       * Adds a click listener to the container to identify selected items. Adds
+       * a class 'fl-item-selected' on the selected item.
+       */
+      setupVisitListeners($document, $scope) {
         function onClick(event) {
           const item = $(event.target).closest('[fl-item]').eq(0);
 
@@ -151,10 +169,10 @@ export default function () {
           $('[fl-item]').not(item).removeClass('fl-item-selected');
         }
 
-        document.on('click', onClick);
+        $document.on('click', onClick);
 
-        scope.$on('$destroy', () => {
-          document.off('click', onClick);
+        $scope.$on('$destroy', () => {
+          $document.off('click', onClick);
         });
       }
     }]
