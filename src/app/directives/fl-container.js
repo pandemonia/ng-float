@@ -75,8 +75,9 @@ export default function () {
         this.render();
       }
 
-      onItemRemove(item) {
-        this.container.removeItem(item);
+      onItemRemove(flItem) {
+        _.remove(this.flItems, v => v === flItem);
+        this.container.removeItem(flItem.item);
         this.render();
       }
 

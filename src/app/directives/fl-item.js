@@ -44,7 +44,7 @@ export default function () {
       makeResizable();
 
       scope.$on('$destroy', () => {
-        flContainer.onItemRemove(flItem.item);
+        flContainer.onItemRemove(flItem);
       });
 
       scope.$on('flItemChanged', function () {
