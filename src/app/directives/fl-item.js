@@ -15,7 +15,8 @@ export default function () {
       layout: '=flItem',
       resizable: '=flResizable',
       getHeight: '=flGetHeight',
-      lastRepeat: '=flLastRepeat'
+      lastRepeat: '=flLastRepeat',
+      isEditable: '=flEditable'
     },
     controllerAs: 'flItem',
     controller: ['$element', class FlItem {
@@ -35,7 +36,7 @@ export default function () {
       flContainer.initItem(flItem);
       element.addClass('fl-item');
 
-      if (!flContainer.isEditable) {
+      if (!(flContainer.isEditable && flItem.isEditable)) {
         return;
       }
 
