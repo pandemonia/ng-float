@@ -22,11 +22,25 @@
       margin: 10px;
     }
 
-    [fl-container] {
-      margin: 0 auto;
+    element .close {
+      color: #aaa;
+      cursor: pointer;
+      position: absolute;
+      right: 5px;
+      top: 0px;
+      transition: 0.2s color;
+    }
+
+    element .close:hover {
+      color: red;
     }
 
     [fl-container] {
+      border: 1px solid #cccccc;
+      margin: 0 auto;
+    }
+
+    [fl-container].fl-container-editing .fl-item {
       border: 1px solid #cccccc;
     }
 
@@ -45,17 +59,19 @@
   <div fl-container="{width: 768, rowHeight: 15, numColumns: 60, buffer: 4, minHeight: 4, minWidth: 10}"
        fl-editable="true"
        ng-init="items = [
-                   {layout: {left: 10, top: 28, height: 4, width: 40}, resizable: 2, value: 5},
-                   {layout: {left: 0, top: 18, height: 10, width: 60}, resizable: 0, value: 4},
-                   {layout: {left: 0, top: 4, height: 10, width: 12}, resizable: 1, value: 3},
-                   {layout: {left: 20, top: 2, height: 4, width: 20}, resizable: 2, value: 2},
-                   {layout: {left: 0, top: 0, height: 4, width: 20}, resizable: 1, value: 1}
+                   {left: 10, top: 28, height: 4, width: 40},
+                   {left: 0, top: 18, height: 10, width: 60},
+                   {left: 0, top: 4, height: 10, width: 12},
+                   {left: 20, top: 2, height: 4, width: 20},
+                   {left: 0, top: 0, height: 4, width: 20}
                 ]">
-    <element ng-repeat="item in items track by ::item.value"
-             fl-item="item.layout"
+    <element ng-repeat="item in items track by ::$index"
+             fl-item="item"
              fl-last-repeat="$last"
-             fl-resizable="item.resizable">
-      <div ng-bind="::item.value" class="value" fl-drag-cancel ng-click="items.splice($index, 1)"></div>
+             fl-resizable="$index % 3"
+             fl-editable="$index % 3 !== 0">
+      <div ng-bind="::$index + 1" class="value" fl-drag-cancel></div>
+      <div class="close" ng-click="items.splice($index, 1)">×</div>
     </element>
   </div>
 

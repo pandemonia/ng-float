@@ -67,10 +67,12 @@ export default function () {
       }
 
       onItemEditStart() {
+        this.$element.addClass('fl-container-editing');
         this.$element.css('height', this.$element.height() + 1000);
       }
 
       onItemEditEnd(item, layout) {
+        this.$element.removeClass('fl-container-editing');
         this.container.editItem(item, layout);
         this.render();
       }

@@ -20,7 +20,7 @@ footer {
   position: absolute;
 }
 
-.fl-edit {
+.ui-draggable.ui-draggable-handle {
   cursor: move;
 }
 
