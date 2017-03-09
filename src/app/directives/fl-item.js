@@ -36,29 +36,19 @@ export default function () {
       flContainer.initItem(flItem);
       element.addClass('fl-item');
 
-      if (!(flContainer.isEditable && flItem.isEditable)) {
-        return;
-      }
+      if (flContainer.isEditable) {
+        element.addClass('fl-edit');
 
-      element.addClass('fl-edit');
-      makeDraggable();
-      makeResizable();
+        scope.$on('$destroy', () => {
+          flContainer.onItemRemove(flItem);
+        });
 
-      scope.$on('$destroy', () => {
-        flContainer.onItemRemove(flItem);
-      });
-
-      scope.$on('flItemChanged', function () {
-        const newLayout = setMinHeight(flItem.item, false);
-        if (newLayout.height !== flItem.item.height) {
-          flContainer.onItemEditEnd(flItem.item, newLayout);
+        if (flItem.isEditable) {
+          makeDraggable();
+          makeResizable();
+          setItemListeners();
         }
-      });
-
-      scope.$on('flResizeChanged', function(event, option) {
-        resizeOption = option;
-        setResizeHandles();
-      });
+      }
 
       /**
        * Sets the element as draggable, and while dragging creates a clone whose
@@ -162,6 +152,20 @@ export default function () {
           }
         }
         return layout;
+      }
+
+      function setItemListeners() {
+        scope.$on('flItemChanged', function () {
+          const newLayout = setMinHeight(flItem.item, false);
+          if (newLayout.height !== flItem.item.height) {
+            flContainer.onItemEditEnd(flItem.item, newLayout);
+          }
+        });
+
+        scope.$on('flResizeChanged', function(event, option) {
+          resizeOption = option;
+          setResizeHandles();
+        });
       }
     }
   };
