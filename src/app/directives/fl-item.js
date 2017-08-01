@@ -1,7 +1,7 @@
-import $ from 'jQuery';
+import $ from 'jQuery'
 import Item from '../classes/Item'
 
-import '../../style/resizable.css';
+import '../../style/resizable.css'
 
 /**
  * This directive behaves as a viewController, creating a link from the element
@@ -18,35 +18,34 @@ export default function () {
       lastRepeat: '=flLastRepeat',
       isEditable: '=flEditable'
     },
-    controllerAs: 'flItem',
     controller: ['$element', class FlItem {
       constructor($element) {
-        this.$element = $element;
-        this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height);
+        this.$element = $element
+        this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height)
       }
 
       render(css, updatedLayout) {
-        this.$element.css(css);
-        Object.assign(this.layout, updatedLayout);
+        this.$element.css(css)
+        Object.assign(this.layout, updatedLayout)
       }
     }],
     link: function (scope, element, attrs, [flContainer, flItem]) {
-      var resizeOption = flItem.resizable; // 0 = not resizable, 1 = sides, 2 = sides + bottom
+      var resizeOption = flItem.resizable // 0 = not resizable, 1 = sides, 2 = sides + bottom
 
-      flContainer.initItem(flItem);
-      element.addClass('fl-item');
+      flContainer.initItem(flItem)
+      element.addClass('fl-item')
 
       if (flContainer.isEditable) {
-        element.addClass('fl-edit');
+        element.addClass('fl-edit')
 
         scope.$on('$destroy', () => {
-          flContainer.onItemRemove(flItem);
-        });
+          flContainer.onItemRemove(flItem)
+        })
 
         if (flItem.isEditable) {
-          makeDraggable();
-          makeResizable();
-          setItemListeners();
+          makeDraggable()
+          makeResizable()
+          setItemListeners()
         }
       }
 
@@ -56,41 +55,41 @@ export default function () {
        * at that position
        */
       function makeDraggable() {
-        const indicator = $('<' + element[0].nodeName.toLowerCase() + '>').addClass('fl-drag-indicator fl-item');
-        const clone = $('<div>').addClass('fl-drag-clone');
-        clone.append(indicator);
+        const indicator = $('<' + element[0].nodeName.toLowerCase() + '>').addClass('fl-drag-indicator fl-item')
+        const clone = $('<div>').addClass('fl-drag-clone')
+        clone.append(indicator)
 
-        const size = {};
+        const size = {}
 
         element.draggable({
           cursor: 'move',
           cancel: '[fl-drag-cancel]',
           helper: () => clone,
           start: (event) => {
-            size.width = element.outerWidth();
-            size.height = element.outerHeight();
+            size.width = element.outerWidth()
+            size.height = element.outerHeight()
 
-            clone.css(flContainer.mapper.layout2px(flItem.item));
-            indicator.css(flContainer.mapper.layout2px(flItem.item));
+            clone.css(flContainer.mapper.layout2px(flItem.item))
+            indicator.css(flContainer.mapper.layout2px(flItem.item))
 
-            element.children().clone().appendTo(indicator);
-            flContainer.onItemEditStart();
-            scope.$broadcast('flDragStart', event);
+            element.children().clone().appendTo(indicator)
+            flContainer.onItemEditStart()
+            scope.$broadcast('flDragStart', event)
           },
           drag: (event, ui) => {
-            const indicatorPos = flContainer.mapper.layout2px(flContainer.mapper.getClosestPosition(Object.assign(size, ui.position)));
+            const indicatorPos = flContainer.mapper.layout2px(flContainer.mapper.getClosestPosition(Object.assign(size, ui.position)))
 
             indicator.css({
               left: indicatorPos.left - ui.position.left,
               top: indicatorPos.top - ui.position.top
-            });
+            })
           },
           stop: (event, ui) => {
-            indicator.empty();
-            flContainer.onItemEditEnd(flItem.item, flContainer.mapper.getClosestPosition(Object.assign(size, ui.position)));
-            scope.$broadcast('flDragStop', event);
+            indicator.empty()
+            flContainer.onItemEditEnd(flItem.item, flContainer.mapper.getClosestPosition(Object.assign(size, ui.position)))
+            scope.$broadcast('flDragStop', event)
           }
-        });
+        })
       }
 
       /**
@@ -102,14 +101,14 @@ export default function () {
        */
       function makeResizable() {
         if (!resizeOption) {
-          return;
+          return
         }
 
-        let indicator;
+        let indicator
 
         function getNewLayout(ui) {
-          const newLayout = flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size), element.data('ui-resizable').axis.includes('w'));
-          return setMinHeight(newLayout, true);
+          const newLayout = flContainer.mapper.getClosestSize(Object.assign(ui.position, ui.size), element.data('ui-resizable').axis.includes('w'))
+          return setMinHeight(newLayout, true)
         }
 
         element.resizable({
@@ -118,55 +117,55 @@ export default function () {
             'ui-resizable-se': ''
           },
           start: (event) => {
-            indicator = $('<div>').addClass('fl-resize-indicator fl-item');
-            indicator.css(flContainer.mapper.layout2px(flItem.item));
-            indicator.appendTo('[fl-container]');
+            indicator = $('<div>').addClass('fl-resize-indicator fl-item')
+            indicator.css(flContainer.mapper.layout2px(flItem.item))
+            indicator.appendTo('[fl-container]')
 
-            flContainer.onItemEditStart();
-            scope.$broadcast('flResizeStart', event);
+            flContainer.onItemEditStart()
+            scope.$broadcast('flResizeStart', event)
           },
           resize: (event, ui) => {
-            indicator.css(flContainer.mapper.layout2px(getNewLayout(ui)));
+            indicator.css(flContainer.mapper.layout2px(getNewLayout(ui)))
           },
           stop: (event, ui) => {
-            indicator.remove();
-            flContainer.onItemEditEnd(flItem.item, getNewLayout(ui));
-            scope.$broadcast('flResizeStop', event);
+            indicator.remove()
+            flContainer.onItemEditEnd(flItem.item, getNewLayout(ui))
+            scope.$broadcast('flResizeStop', event)
           }
-        });
-        setResizeHandles();
+        })
+        setResizeHandles()
       }
 
       function setResizeHandles() {
-        element.resizable('option', 'handles', resizeOption === 1? 'e, w' : 'e, se, s, sw, w');
+        element.resizable('option', 'handles', resizeOption === 1? 'e, w' : 'e, se, s, sw, w')
       }
 
       function setMinHeight(layout, isFreeSize) {
         if (flItem.getHeight) {
-          const pixels = flContainer.mapper.layout2px(layout);
-          const contentHeight = flItem.getHeight(element, pixels.width, isFreeSize);
+          const pixels = flContainer.mapper.layout2px(layout)
+          const contentHeight = flItem.getHeight(element, pixels.width, isFreeSize)
 
           if (contentHeight > 0 && (resizeOption < 2 || contentHeight > pixels.height)) {
-            pixels.height = contentHeight;
-            return flContainer.mapper.px2layout(pixels);
+            pixels.height = contentHeight
+            return flContainer.mapper.px2layout(pixels)
           }
         }
-        return layout;
+        return layout
       }
 
       function setItemListeners() {
         scope.$on('flItemChanged', function () {
-          const newLayout = setMinHeight(flItem.item, false);
+          const newLayout = setMinHeight(flItem.item, false)
           if (newLayout.height !== flItem.item.height) {
-            flContainer.onItemEditEnd(flItem.item, newLayout);
+            flContainer.onItemEditEnd(flItem.item, newLayout)
           }
-        });
+        })
 
         scope.$on('flResizeChanged', function(event, option) {
-          resizeOption = option;
-          setResizeHandles();
-        });
+          resizeOption = option
+          setResizeHandles()
+        })
       }
     }
-  };
+  }
 }

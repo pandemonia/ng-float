@@ -4,14 +4,12 @@
 // import 'jquery-ui-css/resizable.css';
 // import 'jquery-ui-css/theme.css';
 
-import angular from 'angular';
-
 import flContainer from './directives/fl-container'
 import flItem from './directives/fl-item'
 
 import Mapper from './factories/Mapper'
 
-import '../style/app.css';
+import '../style/app.css'
 
 export default angular.module('float', [])
   .directive('flContainer', flContainer)
