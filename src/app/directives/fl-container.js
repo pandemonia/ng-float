@@ -10,10 +10,10 @@ export default function () {
       isEditable: '=flEditable',
       createElementsAtPosition: '&flCreateElementsAtPosition'
     },
-    controller: ['Mapper', '$element', '$document', '$scope', '$timeout', class FlContainer {
-      constructor(Mapper, $element, $document, $scope, $timeout) {
+    controller: ['flMapper', '$element', '$document', '$scope', '$timeout', class FlContainer {
+      constructor(flMapper, $element, $document, $scope, $timeout) {
         this.flItems = []
-        this.mapper = new Mapper(this.options)
+        this.mapper = flMapper.initialize(this.options)
         this.$element = $element
         this.$timeout = $timeout
         this.$element.css('width', this.mapper.width)
