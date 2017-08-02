@@ -2,7 +2,10 @@
   "name": "ng-float",
   "version": "0.0.3",
   "description": "An AngularJS library for building drag-and-drop floating layouts",
-  "keywords": ["angularjs", "layout"],
+  "keywords": [
+    "angularjs",
+    "layout"
+  ],
   "bugs": "https://github.com/Teamie/ng-float/issues",
   "repository": "github:Teamie/ng-float",
   "author": {
@@ -11,14 +14,23 @@
   },
   "license": "MIT",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "dev": "webpack --watch"
+  },
   "dependencies": {
     "angular": "1.5",
     "jquery": "^3.2.1",
     "jquery-ui": "^1.12.1"
   },
   "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "css-loader": "^0.28.4",
     "eslint": "^3.11.1",
-    "eslint-plugin-angular": "^3.0.0"
+    "eslint-plugin-angular": "^3.0.0",
+    "html-webpack-plugin": "^2.30.1",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.4.1"
   }
 }

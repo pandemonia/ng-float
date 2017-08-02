@@ -1,5 +1,5 @@
-import $ from 'jQuery'
 import _ from 'lodash'
+
 import Container from '../classes/Container'
 
 export default function () {
@@ -10,10 +10,12 @@ export default function () {
       isEditable: '=flEditable',
       createElementsAtPosition: '&flCreateElementsAtPosition'
     },
+    controllerAs: 'flContainer',
     controller: ['flMapper', '$element', '$document', '$scope', '$timeout', class FlContainer {
       constructor(flMapper, $element, $document, $scope, $timeout) {
         this.flItems = []
-        this.mapper = flMapper.initialize(this.options)
+        this.mapper = flMapper
+        this.mapper.initialize(this.options)
         this.$element = $element
         this.$timeout = $timeout
         this.$element.css('width', this.mapper.width)
@@ -57,12 +59,7 @@ export default function () {
       render() {
         this.container.removeGaps()
         this.$element.css('height', this.mapper.height2px(this.container.getMaxHeight()) + 100)
-        this.flItems.forEach(flItem => flItem.render(this.mapper.layout2px(flItem.item), {
-          left: flItem.item.left,
-          top: flItem.item.top,
-          width: flItem.item.width,
-          height: flItem.item.height
-        }))
+        this.flItems.forEach(flItem => flItem.render())
       }
 
       onItemEditStart() {
@@ -77,7 +74,11 @@ export default function () {
       }
 
       onItemRemove(flItem) {
-        _.remove(this.flItems, v => v === flItem)
+        const index = this.flItems.indexOf(flItem)
+        if (index !== -1) {
+          this.flItems.splice(index, 1)
+        }
+
         this.container.removeItem(flItem.item)
         this.render()
       }

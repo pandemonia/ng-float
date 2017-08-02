@@ -5,24 +5,19 @@
   <title>Float</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
-        integrity="sha384-xewr6kSkq3dBbEtB6Z/3oFZmknWn7nHqhLVLrYgzEFRbU/DHSxW7K3B44yWUN60D"
-        crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/theme.min.css">
 
   <style>
     * {
       box-sizing: border-box;
     }
 
-    element {
-      display: block;
-    }
-
-    element .value {
+    [fl-item] .value {
       margin: 10px;
     }
 
-    element .close {
+    [fl-item] .close {
       color: #aaa;
       cursor: pointer;
       position: absolute;
@@ -31,7 +26,7 @@
       transition: 0.2s color;
     }
 
-    element .close:hover {
+    [fl-item] .close:hover {
       color: red;
     }
 
@@ -59,33 +54,25 @@
   <div fl-container="{width: 768, rowHeight: 15, numColumns: 60, buffer: 4, minHeight: 4, minWidth: 10}"
        fl-editable="true"
        ng-init="items = [
-                   {left: 10, top: 28, height: 4, width: 40},
-                   {left: 0, top: 18, height: 10, width: 60},
-                   {left: 0, top: 4, height: 10, width: 12},
-                   {left: 20, top: 2, height: 4, width: 20},
-                   {left: 0, top: 0, height: 4, width: 20}
+                  {left: 10, top: 28, height: 4, width: 40},
+                  {left: 0, top: 18, height: 10, width: 60},
+                  {left: 0, top: 4, height: 10, width: 12},
+                  {left: 20, top: 2, height: 4, width: 20},
+                  {left: 0, top: 0, height: 4, width: 20}
                 ]">
-    <element ng-repeat="item in items track by ::$index"
-             fl-item="item"
-             fl-last-repeat="$last"
-             fl-resizable="$index % 3"
-             fl-editable="$index % 3 !== 0">
+    <div ng-repeat="item in items track by ::$index"
+         fl-item="item"
+         fl-last-repeat="$last"
+         fl-resizable="$index % 3"
+         fl-editable="$index % 3 !== 0">
       <div ng-bind="::$index + 1" class="value" fl-drag-cancel></div>
       <div class="close" ng-click="items.splice($index, 1)">×</div>
-    </element>
+    </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.3/lodash.min.js"
-          integrity="sha384-jsG12NEMqgAmlKLBiSdTZPy1CbxTUU2AykyyLMKaLCAIvk1bAmNXGkZ5pnJHmO/l"
-          crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-          integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
-          crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-          integrity="sha384-Dziy8F2VlJQLMShA6FHWNul/veM9bCkRUaLqr199K94ntO5QUrLJBEbYegdSkkqX"
-          crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.min.js"
-          integrity="sha384-MQTyNyhCr96y6ItLIqO7FcZAkmdmuJJRVtMELyyi5jpMTRuFW1J4FkcO8HtsSO0v"
-          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.11/angular.min.js"></script>
 </body>
 </html>

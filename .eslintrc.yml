@@ -3,6 +3,7 @@ root: true
 env:
   es6: true
   browser: true
+  jquery: true
   angular/angular: true
 
 parserOptions:
@@ -18,7 +19,7 @@ extends:
 - eslint:recommended
 
 rules:
-  # can be fixed with --fix in CLI
+  # these 4 can be fixed with --fix in CLI
   indent:
     - 2
     - 2
@@ -34,7 +35,6 @@ rules:
 
   # https://github.com/Gillespie59/eslint-plugin-angular#rules
   # rules chosen with the assumption controllers are not used directly
-  angular/avoid-scope-typos: 1
   angular/module-getter: 2
   angular/module-setter: 2
   angular/no-private-call: 2

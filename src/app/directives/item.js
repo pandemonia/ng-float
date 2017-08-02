@@ -1,4 +1,3 @@
-import $ from 'jQuery'
 import Item from '../classes/Item'
 
 import '../../style/resizable.css'
@@ -18,15 +17,16 @@ export default function () {
       lastRepeat: '=flLastRepeat',
       isEditable: '=flEditable'
     },
-    controller: ['$element', class FlItem {
-      constructor($element) {
+    controllerAs: 'flItem',
+    controller: ['$element', 'flMapper', class FlItem {
+      constructor($element, flMapper) {
         this.$element = $element
+        this.mapper = flMapper
         this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height)
       }
 
-      render(css, updatedLayout) {
-        this.$element.css(css)
-        Object.assign(this.layout, updatedLayout)
+      render() {
+        this.$element.css(this.mapper.layout2px(this.item))
       }
     }],
     link: function (scope, element, attrs, [flContainer, flItem]) {
