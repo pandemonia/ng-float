@@ -1,6 +1,6 @@
 import Row from './Row'
 
-export default class ClassContainer {
+export default class Container {
   constructor(items = []) {
     let status;
     do {
