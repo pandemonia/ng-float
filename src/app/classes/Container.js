@@ -1,8 +1,29 @@
 import Row from './Row'
 
-export default class Container {
+export default class ClassContainer {
   constructor(items = []) {
+    let status;
+    do {
+      status = this.positionItems(items)
+    } while (status);
     this.rows = this.itemsToRows(items);
+  }
+
+  positionItems(items) {
+    let isChange = false;
+    for (var i=0; i<items.length; i++) {
+      for (var j=i+1; j<items.length; j++) {
+        if (items[i].doesOverlap(items[j])) {
+          if (items[i].top <= items[j].top) {
+            items[j].top = items[i].top + items[i].height;
+          } else if (items[i].top > items[j].top) {
+            items[i].top = items[j].top + items[j].height;
+          }
+          isChange = true;
+        }
+      }
+    }
+    return isChange;
   }
 
   itemsToRows(items) {
