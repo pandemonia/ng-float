@@ -4,8 +4,7 @@ export default class Container {
   constructor(items = []) {
     let status;
     do {
-      items.sort((a, b) => a.top - b.top);
-      items.sort((a, b) => a.left - b.left);
+      items.sort((a, b) => (a.top - b.top) * 10000 + a.left - b.left);
       status = this.positionItems(items);
     } while (status);
     this.rows = this.itemsToRows(items);
