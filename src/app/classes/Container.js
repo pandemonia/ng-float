@@ -2,7 +2,30 @@ import Row from './Row'
 
 export default class Container {
   constructor(items = []) {
+    let status;
+    do {
+      items.sort((a, b) => (a.top - b.top) * 10000 + a.left - b.left);
+      status = this.positionItems(items);
+    } while (status);
     this.rows = this.itemsToRows(items);
+  }
+
+  positionItems(items) {
+    let isChange = false;
+    for (var i=0; i<items.length; i++) {
+      for (var j=i+1; j<items.length; j++) {
+        if (items[i].doesOverlap(items[j])) {
+          if (items[i].top <= items[j].top) {
+            items[j].top = items[i].top + items[i].height;
+          } else if (items[i].top > items[j].top) {
+            items[i].top = items[j].top + items[j].height;
+          }
+          isChange = true;
+          console.warn(items[i], `${i} overlaps ${j}`, items[j]);
+        }
+      }
+    }
+    return isChange;
   }
 
   itemsToRows(items) {
