@@ -21,6 +21,7 @@ export default class Container {
             items[i].top = items[j].top + items[j].height;
           }
           isChange = true;
+          console.log(items[i], `${i} overlaps ${j}`, items[j]);
         }
       }
     }
