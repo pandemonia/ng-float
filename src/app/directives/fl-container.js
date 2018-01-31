@@ -60,7 +60,7 @@ export default function () {
         if (this.isEditable) {
           this.$element.css('height', this.mapper.height2px(this.container.getMaxHeight()) + 100);
         } else {
-          this.$element.css('height', this.mapper.height2px(this.container.getMaxHeight()) + 5);
+          this.$element.css('height', this.mapper.height2px(this.container.getMaxHeight()));
         }
         this.flItems.forEach(flItem => flItem.render(this.mapper.layout2px(flItem.item), {
           left: flItem.item.left,
