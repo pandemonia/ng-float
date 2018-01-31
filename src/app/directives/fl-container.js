@@ -57,7 +57,11 @@ export default function () {
 
       render() {
         this.container.removeGaps();
-        this.$element.css('height', this.mapper.height2px(this.container.getMaxHeight()) + 100)
+        if (this.isEditable) {
+          this.$element.css('height', this.mapper.height2px(this.container.getMaxHeight()) + 100);
+        } else {
+          this.$element.css('height', this.mapper.height2px(this.container.getMaxHeight()) + 5);
+        }
         this.flItems.forEach(flItem => flItem.render(this.mapper.layout2px(flItem.item), {
           left: flItem.item.left,
           top: flItem.item.top,
