@@ -22,6 +22,9 @@ export default function () {
     controller: ['$element', class FlItem {
       constructor($element) {
         this.$element = $element;
+      }
+
+      $onInit() {
         this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height);
       }
 
