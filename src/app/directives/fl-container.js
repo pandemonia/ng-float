@@ -14,19 +14,25 @@ export default function () {
     controller: ['Mapper', '$element', '$document', '$scope', '$timeout', class FlContainer {
       constructor(Mapper, $element, $document, $scope, $timeout) {
         this.flItems = [];
-        this.mapper = new Mapper(this.options);
+        this.Mapper = Mapper;
         this.$element = $element;
+        this.$document = $document;
+        this.$scope = $scope;
         this.$timeout = $timeout;
+      }
+
+      $onInit() {
+        this.mapper = new this.Mapper(this.options);
         this.$element.css('width', this.mapper.width);
 
         if (this.isEditable) {
           this.setupDropListeners();
-          this.setupVisitListeners($document, $scope);
+          this.setupVisitListeners(this.$document, this.$scope);
         }
 
         // Giving a 500ms timeout for ngRepeat items to kick in. If there are no
         // items then it means the container is empty.
-        $timeout(() => {
+        this.$timeout(() => {
           if (!this.container && this.flItems.length === 0) {
             this.container = new Container();
             this.render();
