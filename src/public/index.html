@@ -1,28 +1,33 @@
 <!doctype html>
-<html ng-app="float" lang="en">
+<html lang="en" ng-app="float">
 <head>
   <meta charset="UTF-8">
   <title>Float</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
-        integrity="sha384-xewr6kSkq3dBbEtB6Z/3oFZmknWn7nHqhLVLrYgzEFRbU/DHSxW7K3B44yWUN60D"
-        crossorigin="anonymous">
 
   <style>
     * {
       box-sizing: border-box;
     }
 
-    element {
+    main {
       display: block;
+      font-family: Arial, Helvetica, sans-serif;
+      margin-top: 50px;
+      padding: 1em;
+      text-align: center;
     }
 
-    element .value {
+    footer {
+      font-size: .8em;
+      text-align: center;
+    }
+
+    .element .value {
       margin: 10px;
     }
 
-    element .close {
+    .element .close {
       color: #aaa;
       cursor: pointer;
       position: absolute;
@@ -31,7 +36,7 @@
       transition: 0.2s color;
     }
 
-    element .close:hover {
+    .element .close:hover {
       color: red;
     }
 
@@ -65,27 +70,15 @@
                    {left: 20, top: 2, height: 4, width: 20},
                    {left: 0, top: 0, height: 4, width: 20}
                 ]">
-    <element ng-repeat="item in items track by ::$index"
-             fl-item="item"
-             fl-last-repeat="$last"
-             fl-resizable="$index % 3"
-             fl-editable="$index % 3 !== 0">
+    <div ng-repeat="item in items"
+         fl-item="item"
+         fl-last-repeat="$last"
+         fl-resizable="$index % 3"
+         fl-editable="$index % 3 !== 0"
+         class="element">
       <div ng-bind="::$index + 1" class="value" fl-drag-cancel></div>
       <div class="close" ng-click="items.splice($index, 1)">×</div>
-    </element>
+    </div>
   </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.3/lodash.min.js"
-          integrity="sha384-jsG12NEMqgAmlKLBiSdTZPy1CbxTUU2AykyyLMKaLCAIvk1bAmNXGkZ5pnJHmO/l"
-          crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-          integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
-          crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-          integrity="sha384-Dziy8F2VlJQLMShA6FHWNul/veM9bCkRUaLqr199K94ntO5QUrLJBEbYegdSkkqX"
-          crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.min.js"
-          integrity="sha256-ruP2+uorUblSeg7Tozk75u8TaSUKRCZVvNV0zRGxkRQ="
-          crossorigin="anonymous"></script>
 </body>
 </html>
