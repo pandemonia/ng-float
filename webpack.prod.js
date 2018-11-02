@@ -3,7 +3,6 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
-const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -19,17 +18,16 @@ module.exports = merge.smart(common, {
       new OptimizeCSSAssetsPlugin({})
     ]
   },
-  // List of javascript externals which are required to be already present in the
-  // target browser as these libraries are listed as dependencies
+  // List of externals which are required to be already present in the target
+  // browser as these libraries are listed as dependencies. The keys are the
+  // imports used in this library, and the values are the expected global variables
+  // indicating that the dependency has been met
   externals: {
     'lodash': '_',
     'angular': 'angular',
     'jquery-ui/ui/widgets/draggable': '$.ui.draggable',
     'jquery-ui/ui/widgets/resizable': '$.ui.resizable',
-  },
-  plugins: [
-    // Similar to above but for CSS - ignore all jquery-ui CSS imports as they
-    // will be already present in the browser
-    new webpack.IgnorePlugin(/^jquery-ui.*\.css$/),
-  ]
+    'jquery-ui/themes/base/draggable.css': '$.ui.draggable',
+    'jquery-ui/themes/base/resizable.css': '$.ui.resizable'
+  }
 });
