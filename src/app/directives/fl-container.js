@@ -1,5 +1,4 @@
-import $ from 'jQuery';
-import _ from 'lodash';
+import {throttle} from 'lodash';
 import Container from '../classes/Container';
 
 export default function () {
@@ -84,7 +83,7 @@ export default function () {
       }
 
       onItemRemove(flItem) {
-        _.remove(this.flItems, v => v === flItem);
+        this.flItems = this.flItems.filter(v => v !== flItem);
         this.container.removeItem(flItem.item);
         this.render();
       }
@@ -102,11 +101,11 @@ export default function () {
           });
         }
 
-        const dropIndicator = $('<div>').addClass('fl-drop-indicator').appendTo(this.$element);
+        const dropIndicator = angular.element('<div>').addClass('fl-drop-indicator').appendTo(this.$element);
         _setDropIndicatorPos();
 
-        const throttledDragoverCallback = _.throttle(event => {
-          if ($(event.target).is(this.$element)) {
+        const throttledDragoverCallback = throttle(event => {
+          if (angular.element(event.target).is(this.$element)) {
             const pos = this.mapper.px2pos({
               left: event.offsetX,
               top: event.offsetY
@@ -146,7 +145,7 @@ export default function () {
           throttledDragoverCallback.cancel();
           _setDropIndicatorPos();
 
-          if ($(event.target).is(this.$element)) {
+          if (angular.element(event.target).is(this.$element)) {
             const pos = this.mapper.px2pos({
               left: event.offsetX,
               top: event.offsetY
@@ -169,13 +168,13 @@ export default function () {
        */
       setupVisitListeners($document, $scope) {
         function onClick(event) {
-          const item = $(event.target).closest('[fl-item]').eq(0);
+          const item = angular.element(event.target).closest('[fl-item]').eq(0);
 
           if (item) {
             item.addClass('fl-item-selected');
           }
 
-          $('[fl-item]').not(item).removeClass('fl-item-selected');
+          angular.element('[fl-item]').not(item).removeClass('fl-item-selected');
         }
 
         $document.on('click', onClick);

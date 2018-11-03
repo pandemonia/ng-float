@@ -1,7 +1,13 @@
-import $ from 'jQuery';
+import 'jquery-ui/ui/widgets/draggable';
+import 'jquery-ui/ui/widgets/resizable';
+
+import 'jquery-ui/themes/base/draggable.css';
+import 'jquery-ui/themes/base/resizable.css';
+
 import Item from '../classes/Item'
 
 import '../../style/resizable.css';
+import '../../style/draggable.css';
 
 /**
  * This directive behaves as a viewController, creating a link from the element
@@ -59,8 +65,8 @@ export default function () {
        * at that position
        */
       function makeDraggable() {
-        const indicator = $('<' + element[0].nodeName.toLowerCase() + '>').addClass('fl-drag-indicator fl-item');
-        const clone = $('<div>').addClass('fl-drag-clone');
+        const indicator = angular.element('<' + element[0].nodeName.toLowerCase() + '>').addClass('fl-drag-indicator fl-item');
+        const clone = angular.element('<div>').addClass('fl-drag-clone');
         clone.append(indicator);
 
         const size = {};
@@ -121,7 +127,7 @@ export default function () {
             'ui-resizable-se': ''
           },
           start: (event) => {
-            indicator = $('<div>').addClass('fl-resize-indicator fl-item');
+            indicator = angular.element('<div>').addClass('fl-resize-indicator fl-item');
             indicator.css(flContainer.mapper.layout2px(flItem.item));
             indicator.appendTo('[fl-container]');
 

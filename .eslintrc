@@ -1,17 +1,19 @@
 {
+  "extends": "eslint:recommended",
+  "parser": "babel-eslint",
+  "plugins": ["lodash"],
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 9,
+    "ecmaFeatures": {
+      "impliedStrict": true
+    },
     "sourceType": "module"
   },
   "env": {
     "es6": true,
     "browser": true
   },
-  "plugins": [
-    "babel"
-  ],
-  "rules": {
-    "no-console": 0
-  },
-  "extends": "eslint:recommended"
+  "globals": {
+    "angular": false
+  }
 }

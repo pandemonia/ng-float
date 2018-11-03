@@ -1,6 +1,6 @@
 {
   "name": "float",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A javascript library for building floating draggable layouts",
   "main": [
     "dist/float.js",
@@ -10,18 +10,16 @@
     "Nalin Ilango"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/pandemonia/float",
+  "homepage": "https://github.com/Teamie/float",
   "private": true,
   "ignore": [
     "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "node_modules"
   ],
   "dependencies": {
-    "jquery": "^3.1.1",
+    "angular": "^1.7.5",
+    "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
-    "angular": "^1.7.0"
+    "lodash": "^4.17.11"
   }
 }

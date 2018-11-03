@@ -1,0 +1,12 @@
+.ui-draggable.ui-draggable-handle {
+  cursor: move;
+}
+
+.fl-drag-clone {
+  position: absolute;
+}
+
+.fl-drag-clone .fl-drag-indicator {
+  background-color: lightblue;
+  opacity: 0.5;
+}
