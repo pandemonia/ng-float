@@ -24,6 +24,10 @@ export default function () {
         this.mapper = new this.Mapper(this.options);
         this.$element.css('width', this.mapper.width);
 
+        if (this.isTouchDevice()) {
+          this.$element.addClass('fl-touch');
+        }
+
         if (this.isEditable) {
           this.setupDropListeners();
           this.setupVisitListeners(this.$document, this.$scope);
@@ -182,6 +186,10 @@ export default function () {
         $scope.$on('$destroy', () => {
           $document.off('click', onClick);
         });
+      }
+
+      isTouchDevice() {
+        return 'ontouchstart' in window || navigator.MaxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
       }
     }]
   }
