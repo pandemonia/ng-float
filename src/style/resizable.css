@@ -16,7 +16,7 @@
 
 .fl-resizable {
   background-color: blue;
-  border-radius: 4px;
+  border-radius: 50%;
   height: 8px;
   width: 8px;
   z-index: 8 !important; /* Override ui-resizable's inline style */
@@ -45,6 +45,36 @@
 .fl-resizable.ui-resizable-w {
   left: -4px;
   top: calc(50% - 4px);
+}
+
+.fl-touch .fl-resizable {
+  height: 20px;
+  width: 20px;
+}
+
+.fl-touch .fl-resizable.ui-resizable-e {
+  right: -10px;
+  top: calc(50% - 10px);
+}
+
+.fl-touch .fl-resizable.ui-resizable-se {
+  bottom: -10px;
+  right: -10px;
+}
+
+.fl-touch .fl-resizable.ui-resizable-s {
+  bottom: -10px;
+  left: calc(50% - 10px);
+}
+
+.fl-touch .fl-resizable.ui-resizable-sw {
+  bottom: -10px;
+  left: -10px;
+}
+
+.fl-touch .fl-resizable.ui-resizable-w {
+  left: -10px;
+  top: calc(50% - 10px);
 }
 
 .fl-resizable-helper {
