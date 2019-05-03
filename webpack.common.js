@@ -8,7 +8,7 @@ module.exports = {
   entry: './src/app/app.js',
   plugins: [
     // Clean the build folder
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     // Extract all CSS imports into this file
     new MiniCssExtractPlugin({
       filename: 'float.css'
