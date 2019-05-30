@@ -1,6 +1,7 @@
 {
   "name": "float",
-  "version": "1.0.5",
+  "main": "index.js",
+  "version": "1.0.6",
   "description": "A javascript library for building floating draggable layouts",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
