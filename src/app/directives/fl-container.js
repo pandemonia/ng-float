@@ -1,4 +1,4 @@
-import {throttle} from 'lodash';
+import throttle from 'lodash/throttle';
 import Container from '../classes/Container';
 
 export default function () {
