@@ -5,12 +5,16 @@ const common = require('./webpack.common.js');
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 // Extend all the configuration from webpack.common.js ('smart' resolves duplicates)
 module.exports = merge.smart(common, {
   // Setting this mode adds webpack's production defaults
   mode: 'development',
   // Inline source maps for browser debugging
+  optimization: {
+    usedExports: true,
+  },
   devtool: 'inline-source-map',
   // Serve non-dynamic imports from this location
   devServer: {
@@ -27,5 +31,6 @@ module.exports = merge.smart(common, {
     new webpack.ProvidePlugin({
       'window.jQuery': 'jquery'
     }),
+    new BundleAnalyzerPlugin(),
   ]
 });
