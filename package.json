@@ -20,7 +20,7 @@
     "angular": "^1.7.8",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "devDependencies": {
