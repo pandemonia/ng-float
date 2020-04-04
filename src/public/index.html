@@ -76,7 +76,10 @@
          fl-resizable="$index % 3"
          fl-editable="$index % 3 !== 0"
          class="element">
-      <div ng-bind="::$index + 1" class="value" fl-drag-cancel></div>
+      <div class="value" fl-drag-cancel>
+        <strong>{{::$index + 1}}</strong>
+        <em>Resizable: {{::$index % 3}}, Editable: {{::$index % 3 !== 0}}</em>
+      </div>
       <div class="close" ng-click="items.splice($index, 1)">×</div>
     </div>
   </div>
