@@ -1,4 +1,4 @@
- class Mapper {
+export class Mapper {
   constructor({width = 768, rowHeight = 15, numColumns = 60, buffer = 4, minHeight = 4, minWidth = 10}) {
     this.width = width;
     this.numColumns = numColumns;
@@ -126,6 +126,4 @@
   }
 }
 
-export default function MapperFactory() {
-  return Mapper;
-}
+export default Mapper;

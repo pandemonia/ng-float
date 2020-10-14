@@ -1,4 +1,4 @@
-export default class Row {
+export class Row {
   constructor(items, top) {
     this.top = top;
 
@@ -44,3 +44,5 @@ export default class Row {
     return overlap;
   }
 }
+
+export default Row;

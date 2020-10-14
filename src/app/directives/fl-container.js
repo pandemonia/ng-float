@@ -1,7 +1,8 @@
-import throttle from 'lodash/throttle';
-import Container from '../classes/Container';
+import angular from 'angular';
+import { throttle } from 'lodash';
+import { Container } from '../classes/Container';
 
-export default function () {
+export function flContainer() {
   return {
     restrict: 'A',
     bindToController: {
@@ -194,3 +195,5 @@ export default function () {
     }]
   }
 }
+
+export default flContainer;

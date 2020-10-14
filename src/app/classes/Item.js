@@ -1,4 +1,4 @@
-export default class Item {
+export class Item {
   constructor(left, top, width, height) {
     this.left = left;
     this.top = top;
@@ -12,3 +12,5 @@ export default class Item {
              this.top + this.height <= item.top || item.top + item.height <= this.top);
   }
 }
+
+export default Item;
