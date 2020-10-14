@@ -195,5 +195,3 @@ export function flContainer() {
     }]
   }
 }
-
-export default flContainer;

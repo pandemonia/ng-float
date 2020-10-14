@@ -12,5 +12,3 @@ export class Item {
              this.top + this.height <= item.top || item.top + item.height <= this.top);
   }
 }
-
-export default Item;

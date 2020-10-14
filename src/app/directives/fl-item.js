@@ -1,3 +1,4 @@
+import 'jquery';
 import 'jquery-ui/ui/widgets/draggable';
 import 'jquery-ui/ui/widgets/resizable';
 
@@ -180,5 +181,3 @@ export function flItem() {
     }
   };
 }
-
-export default flItem;

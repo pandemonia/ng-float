@@ -126,4 +126,6 @@ export class Mapper {
   }
 }
 
-export default Mapper;
+export function MapperService() {
+  return Mapper;
+}

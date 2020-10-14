@@ -44,5 +44,3 @@ export class Row {
     return overlap;
   }
 }
-
-export default Row;

@@ -6,9 +6,9 @@ import cssnano from 'cssnano';
 
 import { browser, main, module } from './package.json';
 
-const common = {
+export default {
   input: 'src/main.js',
-  external: id => /lodash|angular|jquery-ui/.test(`^${id}`),
+  external: id => /lodash|angular|jquery/.test(`^${id}`),
   plugins: [
     eslint({
       throwOnError: true,
@@ -24,12 +24,12 @@ const common = {
       plugins: [ cssnano() ],
     }),
   ],
-};
-
-export default [
-  {
-    ...common,
-    output: {
+  output: [
+    {
+      file: module,
+      format: 'module'
+    },
+    {
       file: browser,
       format: 'umd',
       name: 'float',
@@ -38,12 +38,10 @@ export default [
         'lodash': '_',
       }
     },
-  },
-  {
-    ...common,
-    output: [
-      { file: main, format: 'cjs', exports: 'default' },
-      { file: module, format: 'es' },
-    ],
-  },
-];
+    {
+      file: main,
+      format: 'cjs',
+      exports: 'default'
+    },
+  ],
+};
