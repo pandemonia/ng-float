@@ -1,3 +1,7 @@
+:root {
+  --float-body-color: blue;
+}
+
 [fl-container] {
   box-sizing: content-box;
   position: relative;
@@ -16,13 +20,13 @@
 }
 
 .fl-edit:hover, .fl-edit.fl-item-selected {
-  border-color: blue;
+  border-color: var(--float-body-color);
 }
 
 /** Drop */
 
 .fl-drop-indicator {
-  background-color: blue;
+  background-color: var(--float-body-color);
   border-radius: 2px;
   pointer-events: none;
   position: absolute;

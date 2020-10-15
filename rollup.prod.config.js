@@ -2,6 +2,7 @@ import babel from 'rollup-plugin-babel';
 import { eslint } from 'rollup-plugin-eslint';
 import { terser } from 'rollup-plugin-terser';
 import postcss from 'rollup-plugin-postcss';
+import postcssPresetEnv from 'postcss-preset-env';
 import cssnano from 'cssnano';
 
 import { browser, main, module } from './package.json';
@@ -21,7 +22,10 @@ export default {
     terser(),
     postcss({
       extensions: [ '.css' ],
-      plugins: [ cssnano() ],
+      plugins: [
+        postcssPresetEnv(),
+        cssnano(),
+      ],
     }),
   ],
   output: [

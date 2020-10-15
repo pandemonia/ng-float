@@ -1,10 +1,19 @@
+:root {
+  --float-body-color: blue;
+  --float-handle-size: 8px;
+}
+
+.fl-touch {
+  --float-handle-size: 20px;
+}
+
 .fl-edit.ui-resizable-resizing {
   display: none;
 }
 
 .fl-resize-indicator {
-  border: 1px solid blue;
-  background-color: blue;
+  border: 1px solid var(--float-body-color);
+  background-color: var(--float-body-color);
   opacity: 0.5;
   z-index: 8;
 }
@@ -15,66 +24,42 @@
 }
 
 .fl-resizable {
-  background-color: blue;
+  background-color: var(--float-body-color);
   border-radius: 50%;
-  height: 8px;
-  width: 8px;
+  height: var(--float-handle-size);
+  position: absolute;
+  width: var(--float-handle-size);
   z-index: 8 !important; /* Override ui-resizable's inline style */
 }
 
 .fl-resizable.ui-resizable-e {
-  right: -4px;
-  top: calc(50% - 4px);
+  cursor: e-resize;
+  right: calc(-1 * var(--float-handle-size)/2);
+  top: calc(50% - var(--float-handle-size)/2);
 }
 
 .fl-resizable.ui-resizable-se {
-  bottom: -4px;
-  right: -4px;
+  cursor: se-resize;
+  bottom: calc(-1 * var(--float-handle-size)/2);
+  right: calc(-1 * var(--float-handle-size)/2);
 }
 
 .fl-resizable.ui-resizable-s {
-  bottom: -4px;
-  left: calc(50% - 4px);
+  cursor: s-resize;
+  bottom: calc(-1 * var(--float-handle-size)/2);
+  left: calc(50% - var(--float-handle-size)/2);
 }
 
 .fl-resizable.ui-resizable-sw {
-  bottom: -4px;
-  left: -4px;
+  cursor: sw-resize;
+  bottom: calc(-1 * var(--float-handle-size)/2);
+  left: calc(-1 * var(--float-handle-size)/2);
 }
 
 .fl-resizable.ui-resizable-w {
-  left: -4px;
-  top: calc(50% - 4px);
-}
-
-.fl-touch .fl-resizable {
-  height: 20px;
-  width: 20px;
-}
-
-.fl-touch .fl-resizable.ui-resizable-e {
-  right: -10px;
-  top: calc(50% - 10px);
-}
-
-.fl-touch .fl-resizable.ui-resizable-se {
-  bottom: -10px;
-  right: -10px;
-}
-
-.fl-touch .fl-resizable.ui-resizable-s {
-  bottom: -10px;
-  left: calc(50% - 10px);
-}
-
-.fl-touch .fl-resizable.ui-resizable-sw {
-  bottom: -10px;
-  left: -10px;
-}
-
-.fl-touch .fl-resizable.ui-resizable-w {
-  left: -10px;
-  top: calc(50% - 10px);
+  cursor: w-resize;
+  left: calc(-1 * var(--float-handle-size)/2);
+  top: calc(50% - var(--float-handle-size)/2);
 }
 
 .fl-resizable-helper {
