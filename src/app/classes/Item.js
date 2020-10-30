@@ -1,4 +1,4 @@
-export default class Item {
+export class Item {
   constructor(left, top, width, height) {
     this.left = left;
     this.top = top;

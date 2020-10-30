@@ -1,4 +1,4 @@
-export default class Row {
+export class Row {
   constructor(items, top) {
     this.top = top;
 

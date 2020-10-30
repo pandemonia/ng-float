@@ -1,19 +1,21 @@
+import 'jquery';
 import 'jquery-ui/ui/widgets/draggable';
 import 'jquery-ui/ui/widgets/resizable';
 
 import 'jquery-ui/themes/base/draggable.css';
 import 'jquery-ui/themes/base/resizable.css';
 
-import Item from '../classes/Item'
+import angular from 'angular';
+import { Item } from '../classes/Item'
 
-import '../../style/resizable.css';
-import '../../style/draggable.css';
+import '../../styles/resizable.css';
+import '../../styles/draggable.css';
 
 /**
  * This directive behaves as a viewController, creating a link from the element
  * (the view) to the model.
  */
-export default function () {
+export function flItem() {
   return {
     restrict: 'A',
     require: ['^flContainer', 'flItem'], //This creates a self reference, not sure if it is an issue

@@ -1,0 +1,68 @@
+:root {
+  --float-body-color: blue;
+  --float-handle-size: 8px;
+}
+
+.fl-touch {
+  --float-handle-size: 20px;
+}
+
+.fl-edit.ui-resizable-resizing {
+  display: none;
+}
+
+.fl-resize-indicator {
+  border: 1px solid var(--float-body-color);
+  background-color: var(--float-body-color);
+  opacity: 0.5;
+  z-index: 8;
+}
+
+/* jQuery's autohide option is not working, this fixes that */
+.fl-edit:not(:hover):not(.fl-item-selected) .fl-resizable {
+  display: none !important;
+}
+
+.fl-resizable {
+  background-color: var(--float-body-color);
+  border-radius: 50%;
+  height: var(--float-handle-size);
+  position: absolute;
+  width: var(--float-handle-size);
+  z-index: 8 !important; /* Override ui-resizable's inline style */
+}
+
+.fl-resizable.ui-resizable-e {
+  cursor: e-resize;
+  right: calc(-1 * var(--float-handle-size)/2);
+  top: calc(50% - var(--float-handle-size)/2);
+}
+
+.fl-resizable.ui-resizable-se {
+  cursor: se-resize;
+  bottom: calc(-1 * var(--float-handle-size)/2);
+  right: calc(-1 * var(--float-handle-size)/2);
+}
+
+.fl-resizable.ui-resizable-s {
+  cursor: s-resize;
+  bottom: calc(-1 * var(--float-handle-size)/2);
+  left: calc(50% - var(--float-handle-size)/2);
+}
+
+.fl-resizable.ui-resizable-sw {
+  cursor: sw-resize;
+  bottom: calc(-1 * var(--float-handle-size)/2);
+  left: calc(-1 * var(--float-handle-size)/2);
+}
+
+.fl-resizable.ui-resizable-w {
+  cursor: w-resize;
+  left: calc(-1 * var(--float-handle-size)/2);
+  top: calc(50% - var(--float-handle-size)/2);
+}
+
+.fl-resizable-helper {
+  border: 2px solid green;
+  position: absolute;
+}
