@@ -26,12 +26,14 @@ export default function () {
     },
     controllerAs: 'flItem',
     controller: ['$element', class FlItem {
-      constructor($element) {
+      constructor($element, $scope) {
         this.$element = $element;
+        this.$scope = $scope;
       }
 
       $onInit() {
-        this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height);
+        var dimensions = this.$scope.flContainer.mapper.px2dimension(this.layout);
+        this.item = new Item(dimensions.left, dimensions.top, dimensions.width, dimensions.height);
       }
 
       render(css, updatedLayout) {
@@ -42,6 +44,7 @@ export default function () {
     link: function (scope, element, attrs, [flContainer, flItem]) {
       var resizeOption = flItem.resizable; // 0 = not resizable, 1 = sides, 2 = sides + bottom
 
+      scope.flContainer = flContainer;
       flContainer.initItem(flItem);
       element.addClass('fl-item');
 
