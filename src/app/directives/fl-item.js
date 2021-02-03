@@ -25,7 +25,7 @@ export default function () {
       isEditable: '=flEditable'
     },
     controllerAs: 'flItem',
-    controller: ['$element','$scope', class FlItem {
+    controller: ['$element', '$scope', class FlItem {
       constructor($element, $scope) {
         this.$element = $element;
         this.$scope = $scope;
