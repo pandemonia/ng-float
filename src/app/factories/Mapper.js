@@ -118,6 +118,26 @@ export class Mapper {
     };
   }
 
+  px2dimension({left, top, height, width}) {
+    if(typeof left === "string" && left.includes('px')) {
+      left = this._closestMultiple(parseInt(left), this.colWidth);
+    }
+
+    if(typeof top === "string" && top.includes('px')) {
+      top = this._closestMultiple(parseInt(top), this.rowHeight);
+    }
+
+    if(typeof height === "string" && height.includes('px')) {
+      height = this._closestMultiple(parseInt(height), this.rowHeight);
+    }
+
+    if(typeof width === "string" && width.includes('px')) {
+      width = this._closestMultiple(parseInt(width), this.colWidth);
+    }
+
+    return {left,top,height,width};
+  }
+
   _closestMultiple(val, divisor) {
     const result = val/divisor;
     const option1 = Math.floor(result);
