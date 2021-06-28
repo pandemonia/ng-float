@@ -60,8 +60,9 @@ export function flItem() {
         if (flItem.isEditable) {
           makeDraggable();
           makeResizable();
-          setItemListeners();
         }
+
+        setItemListeners(flItem.isEditable);
       }
 
       /**
@@ -168,7 +169,14 @@ export function flItem() {
         return layout;
       }
 
-      function setItemListeners() {
+      /**
+       * The item content can be created programmatically, and not directly through float.
+       * In such cases, it is possible that the item size needs to be calculated on load
+       * and thus needs to listen to item changes even without the item being editable.
+       *
+       * @param {boolean} isEditable
+       */
+      function setItemListeners(isEditable) {
         scope.$on('flItemChanged', function () {
           const newLayout = setMinHeight(flItem.item, false);
           if (newLayout.height !== flItem.item.height) {
@@ -176,10 +184,12 @@ export function flItem() {
           }
         });
 
-        scope.$on('flResizeChanged', function(event, option) {
-          resizeOption = option;
-          setResizeHandles();
-        });
+        if (isEditable) {
+          scope.$on('flResizeChanged', function(event, option) {
+            resizeOption = option;
+            setResizeHandles();
+          });
+        }
       }
     }
   };
