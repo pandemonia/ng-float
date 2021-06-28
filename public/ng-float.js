@@ -447,8 +447,8 @@ var float = (function (angular, lodash) {
     }
   }
 
-  var css_248z = ":root {\n  --float-body-color: blue;\n  --float-handle-size: 8px;\n}\n\n.fl-touch {\n  --float-handle-size: 20px;\n}\n\n.fl-edit.ui-resizable-resizing {\n  display: none;\n}\n\n.fl-resize-indicator {\n  border: 1px solid var(--float-body-color);\n  background-color: var(--float-body-color);\n  opacity: 0.5;\n  z-index: 8;\n}\n\n/* jQuery's autohide option is not working, this fixes that */\n.fl-edit:not(:hover):not(.fl-item-selected) .fl-resizable {\n  display: none !important;\n}\n\n.fl-resizable {\n  background-color: var(--float-body-color);\n  border-radius: 50%;\n  height: var(--float-handle-size);\n  position: absolute;\n  width: var(--float-handle-size);\n  z-index: 8 !important; /* Override ui-resizable's inline style */\n}\n\n.fl-resizable.ui-resizable-e {\n  cursor: e-resize;\n  right: calc(-1 * var(--float-handle-size)/2);\n  top: calc(50% - var(--float-handle-size)/2);\n}\n\n.fl-resizable.ui-resizable-se {\n  cursor: se-resize;\n  bottom: calc(-1 * var(--float-handle-size)/2);\n  right: calc(-1 * var(--float-handle-size)/2);\n}\n\n.fl-resizable.ui-resizable-s {\n  cursor: s-resize;\n  bottom: calc(-1 * var(--float-handle-size)/2);\n  left: calc(50% - var(--float-handle-size)/2);\n}\n\n.fl-resizable.ui-resizable-sw {\n  cursor: sw-resize;\n  bottom: calc(-1 * var(--float-handle-size)/2);\n  left: calc(-1 * var(--float-handle-size)/2);\n}\n\n.fl-resizable.ui-resizable-w {\n  cursor: w-resize;\n  left: calc(-1 * var(--float-handle-size)/2);\n  top: calc(50% - var(--float-handle-size)/2);\n}\n\n.fl-resizable-helper {\n  border: 2px solid green;\n  position: absolute;\n}\n";
-  styleInject(css_248z);
+  var css_248z$2 = ":root {\n  --float-body-color: blue;\n  --float-handle-size: 8px;\n}\n\n.fl-touch {\n  --float-handle-size: 20px;\n}\n\n.fl-edit.ui-resizable-resizing {\n  display: none;\n}\n\n.fl-resize-indicator {\n  border: 1px solid var(--float-body-color);\n  background-color: var(--float-body-color);\n  opacity: 0.5;\n  z-index: 8;\n}\n\n/* jQuery's autohide option is not working, this fixes that */\n.fl-edit:not(:hover):not(.fl-item-selected) .fl-resizable {\n  display: none !important;\n}\n\n.fl-resizable {\n  background-color: var(--float-body-color);\n  border-radius: 50%;\n  height: var(--float-handle-size);\n  position: absolute;\n  width: var(--float-handle-size);\n  z-index: 8 !important; /* Override ui-resizable's inline style */\n}\n\n.fl-resizable.ui-resizable-e {\n  cursor: e-resize;\n  right: calc(-1 * var(--float-handle-size)/2);\n  top: calc(50% - var(--float-handle-size)/2);\n}\n\n.fl-resizable.ui-resizable-se {\n  cursor: se-resize;\n  bottom: calc(-1 * var(--float-handle-size)/2);\n  right: calc(-1 * var(--float-handle-size)/2);\n}\n\n.fl-resizable.ui-resizable-s {\n  cursor: s-resize;\n  bottom: calc(-1 * var(--float-handle-size)/2);\n  left: calc(50% - var(--float-handle-size)/2);\n}\n\n.fl-resizable.ui-resizable-sw {\n  cursor: sw-resize;\n  bottom: calc(-1 * var(--float-handle-size)/2);\n  left: calc(-1 * var(--float-handle-size)/2);\n}\n\n.fl-resizable.ui-resizable-w {\n  cursor: w-resize;\n  left: calc(-1 * var(--float-handle-size)/2);\n  top: calc(50% - var(--float-handle-size)/2);\n}\n\n.fl-resizable-helper {\n  border: 2px solid green;\n  position: absolute;\n}\n";
+  styleInject(css_248z$2);
 
   var css_248z$1 = ".ui-draggable.ui-draggable-handle {\n  cursor: move;\n}\n\n.fl-drag-clone {\n  position: absolute;\n}\n\n.fl-drag-clone .fl-drag-indicator {\n  background-color: lightblue;\n  opacity: 0.5;\n}\n";
   styleInject(css_248z$1);
@@ -469,13 +469,15 @@ var float = (function (angular, lodash) {
         isEditable: '=flEditable'
       },
       controllerAs: 'flItem',
-      controller: ['$element', class FlItem {
-        constructor($element) {
+      controller: ['$element', '$scope', class FlItem {
+        constructor($element, $scope) {
           this.$element = $element;
+          this.$scope = $scope;
         }
 
         $onInit() {
-          this.item = new Item(this.layout.left, this.layout.top, this.layout.width, this.layout.height);
+          var dimensions = this.$scope.flContainer.mapper.px2dimension(this.layout);
+          this.item = new Item(dimensions.left, dimensions.top, dimensions.width, dimensions.height);
         }
 
         render(css, updatedLayout) {
@@ -486,6 +488,7 @@ var float = (function (angular, lodash) {
       link: function (scope, element, attrs, [flContainer, flItem]) {
         var resizeOption = flItem.resizable; // 0 = not resizable, 1 = sides, 2 = sides + bottom
 
+        scope.flContainer = flContainer;
         flContainer.initItem(flItem);
         element.addClass('fl-item');
 
@@ -499,8 +502,9 @@ var float = (function (angular, lodash) {
           if (flItem.isEditable) {
             makeDraggable();
             makeResizable();
-            setItemListeners();
           }
+
+          setItemListeners(flItem.isEditable);
         }
 
         /**
@@ -607,7 +611,14 @@ var float = (function (angular, lodash) {
           return layout;
         }
 
-        function setItemListeners() {
+        /**
+         * The item content can be created programmatically, and not directly through float.
+         * In such cases, it is possible that the item size needs to be calculated on load
+         * and thus needs to listen to item changes even without the item being editable.
+         *
+         * @param {boolean} isEditable
+         */
+        function setItemListeners(isEditable) {
           scope.$on('flItemChanged', function () {
             const newLayout = setMinHeight(flItem.item, false);
             if (newLayout.height !== flItem.item.height) {
@@ -615,10 +626,12 @@ var float = (function (angular, lodash) {
             }
           });
 
-          scope.$on('flResizeChanged', function(event, option) {
-            resizeOption = option;
-            setResizeHandles();
-          });
+          if (isEditable) {
+            scope.$on('flResizeChanged', function(event, option) {
+              resizeOption = option;
+              setResizeHandles();
+            });
+          }
         }
       }
     };
@@ -744,6 +757,26 @@ var float = (function (angular, lodash) {
       };
     }
 
+    px2dimension({left, top, height, width}) {
+      if(typeof left === "string" && left.includes('px')) {
+        left = this._closestMultiple(parseInt(left), this.colWidth);
+      }
+
+      if(typeof top === "string" && top.includes('px')) {
+        top = this._closestMultiple(parseInt(top), this.rowHeight);
+      }
+
+      if(typeof height === "string" && height.includes('px')) {
+        height = this._closestMultiple(parseInt(height), this.rowHeight);
+      }
+
+      if(typeof width === "string" && width.includes('px')) {
+        width = this._closestMultiple(parseInt(width), this.colWidth);
+      }
+
+      return {left,top,height,width};
+    }
+
     _closestMultiple(val, divisor) {
       const result = val/divisor;
       const option1 = Math.floor(result);
@@ -756,8 +789,8 @@ var float = (function (angular, lodash) {
     return Mapper;
   }
 
-  var css_248z$2 = ":root {\n  --float-body-color: blue;\n}\n\n[fl-container] {\n  box-sizing: content-box;\n  position: relative;\n}\n\n.fl-item {\n  position: absolute;\n}\n\n.fl-edit [fl-drag-cancel] {\n  cursor: initial;\n}\n\n.fl-edit {\n  border: 1px solid transparent;\n}\n\n.fl-edit:hover, .fl-edit.fl-item-selected {\n  border-color: var(--float-body-color);\n}\n\n/** Drop */\n\n.fl-drop-indicator {\n  background-color: var(--float-body-color);\n  border-radius: 2px;\n  pointer-events: none;\n  position: absolute;\n  height: 5px;\n}\n";
-  styleInject(css_248z$2);
+  var css_248z = ":root {\n  --float-body-color: blue;\n}\n\n[fl-container] {\n  box-sizing: content-box;\n  position: relative;\n}\n\n.fl-item {\n  position: absolute;\n}\n\n.fl-edit [fl-drag-cancel] {\n  cursor: initial;\n}\n\n.fl-edit {\n  border: 1px solid transparent;\n}\n\n.fl-edit:hover, .fl-edit.fl-item-selected {\n  border-color: var(--float-body-color);\n}\n\n/** Drop */\n\n.fl-drop-indicator {\n  background-color: var(--float-body-color);\n  border-radius: 2px;\n  pointer-events: none;\n  position: absolute;\n  height: 5px;\n}\n";
+  styleInject(css_248z);
 
   var main = angular__default['default'].module('float', [])
     .directive('flContainer', flContainer)
