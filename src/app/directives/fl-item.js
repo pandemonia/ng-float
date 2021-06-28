@@ -61,9 +61,9 @@ export function flItem() {
           makeDraggable();
           makeResizable();
         }
-
-        setItemListeners(flItem.isEditable);
       }
+
+      setItemListeners(flItem.isEditable);
 
       /**
        * Sets the element as draggable, and while dragging creates a clone whose
